@@ -22,16 +22,27 @@ function savePickedOption(){
         case "shape":
             usersPokemonAttributes.shape = pickedOption;
             //fetch(api/v2/pokemon-shape/${pickedOption})
+            //function for removing this.eventlistener and class hidden from next question wrapper?
             break;
 
-        //Other cases would be here 
+        case "color":
+            usersPokemonAttributes.color = pickedOption;
+            //fetch(api/v2/pokemon-shape/${pickedOption})
+            //function for removing this.eventlistener and class hidden from next question wrapper?
+            break;
+
+        case "habitat":
+            usersPokemonAttributes.habitat = pickedOption;
+            //fetch(api/v2/pokemon-shape/${pickedOption})
+            //function for removing this.eventlistener and class hidden from next question wrapper?
+            break;
 
         default: 
-            console.log("Switch default");
+            console.log("Switch default-message");
             break;
     }
 
-    console.log(usersPokemonAttributes); // WORKS!! For e.x {shape: "wings", color: "", habitat: ""}
+    console.log(usersPokemonAttributes); // WORKS!! For e.x {shape: "wings", color: "red", habitat: "grassland"}
     
 }
 
