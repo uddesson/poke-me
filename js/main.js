@@ -6,21 +6,34 @@ for (var i = 0; i < optionImages.length; i++){
     optionImages[i].addEventListener('click', savePickedOption);
 }
 
-function savePickedOption(){
-    //Outputs id of that option, for ex. picked favourite shape could read "fish"
-    console.log(this.parentElement.parentElement.id) 
-
-    /* Should work for all of the questions, 
-    not just for a specific one */
+//As the user picks their options, the values will be set
+const usersPokemonAttributes = {
+    shape: '',
+    color: '',
+    habitat: ''
 }
 
-/* Store users picked options in an object (?), 
-that would in the end look something like this */
-const usersPokemonAttributes = {
-    color: red, 
-    shape: tentacles,
-    habitat: sea
-} 
+function savePickedOption(){
+    //Outputs id of that option, for ex. picked favourite shape could read "fish"
+    let pickedOption = this.parentElement.parentElement.id;
+    let optionCategory = this.parentElement.parentElement.parentElement.id;
+    
+    switch(optionCategory){
+        case "shape":
+            usersPokemonAttributes.shape = pickedOption;
+            //fetch(api/v2/pokemon-shape/${pickedOption})
+            break;
+
+        //Other cases would be here 
+
+        default: 
+            console.log("Switch default");
+            break;
+    }
+
+    console.log(usersPokemonAttributes); // WORKS!! For e.x {shape: "wings", color: "", habitat: ""}
+    
+}
 
 /*  IDEA NOTES:
 
