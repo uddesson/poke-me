@@ -1,15 +1,16 @@
-//Make every option box an option box
-const pickedOptionBox = document.getElementsByClassName('option-box');
+//Fetch elements from the DOM
+var optionImages = document.getElementsByTagName('img');
 
-//Assign an eventlistener to every optionbox, that listens for click (?)
-pickedOptionBox.addEventListener('click', function(){
-    //function() should be replaced by some sort of save option-function
-    //Maybe needs to use "this" to identify itself?
-})
+//Make every image the 
+for (var i = 0; i < optionImages.length; i++){
+    optionImages[i].addEventListener('click', savePickedOption);
+}
 
 function savePickedOption(){
-    /* Save the picked option as for ex. color.value
-    Should work for all of the questions, 
+    //Outputs id of that option, for ex. picked favourite shape could read "fish"
+    console.log(this.parentElement.parentElement.id) 
+
+    /* Should work for all of the questions, 
     not just for a specific one */
 }
 
