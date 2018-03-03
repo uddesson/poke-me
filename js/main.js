@@ -38,9 +38,43 @@ function savePickedAttribute(){
             console.log("Switch default-message");
             break;
     }
-
-    console.log(usersPokemonAttributes); // WORKS!! For e.x {shape: "wings", color: "red", habitat: "grassland"}
     
+    console.log(usersPokemonAttributes); // For e.x {shape: "wings", color: "red", habitat: "grassland"}
+    
+}
+
+
+
+
+function fetchPokemonsWithAttribute(attributeCategory,pickedAttribute){
+    fetch(`https://pokeapi.co/api/v2/${attributeCategory}/${pickedAttribute}/`) 
+        .then(function(response){ //Hopefully recive data
+            return response.json(); 
+        })
+
+        .then(function(pokemonData){ 
+            const arrayWithPokemonData = pokemonData.pokemon_species; //Returns array of objects with id, url and name
+
+            let pokemonNames = getPokemonNamesFromArray(arrayWithPokemonData);
+            console.log(pokemonNames); //Array of pokemon names with the picked attribute!! 
+        })
+
+        .catch(function(error){
+            console.log(error)
+        })
+
+}
+
+function getPokemonNamesFromArray(arrayWithPokemonData){
+    let pokemonNames = [];
+
+        for (var i = 0; i < arrayWithPokemonData.length; i++){
+            pokemonNames.push(arrayWithPokemonData[i].name);
+        }
+    
+    console.log(pokemonNames); //Array with pokemon names!! 
+    return pokemonNames; 
+     
 }
 
 /*  IDEA NOTES:
