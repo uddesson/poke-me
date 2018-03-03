@@ -19,19 +19,16 @@ function savePickedAttribute(){
     let attributeCategory = this.parentElement.parentElement.parentElement.id;
     
     switch(attributeCategory){
-        case "shape":
+        case "pokemon-shape":
             usersPokemonAttributes.shape = pickedAttribute;
-            //fetch(api/v2/pokemon-shape/${pickedAttribute})
-            //function for removing this.eventlistener and class hidden from next question wrapper?
+            fetchPokemonsWithAttribute(attributeCategory,pickedAttribute);        
             break;
 
-        case "color":
+        case "pokemon-color":
             usersPokemonAttributes.color = pickedAttribute;
-            //fetch(api/v2/pokemon-shape/${pickedAttribute})
-            //function for removing this.eventlistener and class hidden from next question wrapper?
             break;
 
-        case "habitat":
+        case "pokemon-habitat":
             usersPokemonAttributes.habitat = pickedAttribute;
             //fetch(api/v2/pokemon-shape/${pickedAttribute})
             //function for removing this.eventlistener and class hidden from next question wrapper?
