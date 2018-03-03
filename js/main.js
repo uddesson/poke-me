@@ -17,33 +17,35 @@ function savePickedAttribute(){
     //Outputs id of that attribute, for ex. picked favourite shape could read "fish"
     let pickedAttribute = this.parentElement.parentElement.id;
     let attributeCategory = this.parentElement.parentElement.parentElement.id;
+    let APIurl = `https://pokeapi.co/api/v2/${attributeCategory}/${pickedAttribute}/`;
     
     switch(attributeCategory){
         case "pokemon-shape":
             usersPokemonAttributes.shape = pickedAttribute;
-            fetchPokemonsWithAttribute(attributeCategory,pickedAttribute);        
+            //Use url to fetch pokemon with selected shape from api
+            var shapeUrl = APIurl; 
             break;
 
         case "pokemon-color":
             usersPokemonAttributes.color = pickedAttribute;
+            var colorUrl = APIurl; 
             break;
 
         case "pokemon-habitat":
             usersPokemonAttributes.habitat = pickedAttribute;
-            //fetch(api/v2/pokemon-shape/${pickedAttribute})
-            //function for removing this.eventlistener and class hidden from next question wrapper?
+            var habitatUrl = APIurl; 
             break;
 
         default: 
             console.log("Switch default-message");
             break;
     }
-    
+
     console.log(usersPokemonAttributes); // For e.x {shape: "wings", color: "red", habitat: "grassland"}
     
 }
 
-
+//Need to fech ALL the urls AFTER the user has picked all of their attributes. Somehow.
 
 
 function fetchPokemonsWithAttribute(attributeCategory,pickedAttribute){
