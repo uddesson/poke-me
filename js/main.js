@@ -1,39 +1,39 @@
 //Fetch elements from the DOM
-var optionImages = document.getElementsByTagName('img');
+var attributeImages = document.getElementsByTagName('img');
 
 //Make every image the 
-for (var i = 0; i < optionImages.length; i++){
-    optionImages[i].addEventListener('click', savePickedOption);
+for (var i = 0; i < attributeImages.length; i++){
+    attributeImages[i].addEventListener('click', savePickedAttribute);
 }
 
-//As the user picks their options, the values will be set
+//As the user picks their attributes, the values will be set
 const usersPokemonAttributes = {
     shape: '',
     color: '',
     habitat: ''
 }
 
-function savePickedOption(){
-    //Outputs id of that option, for ex. picked favourite shape could read "fish"
-    let pickedOption = this.parentElement.parentElement.id;
-    let optionCategory = this.parentElement.parentElement.parentElement.id;
+function savePickedAttribute(){
+    //Outputs id of that attribute, for ex. picked favourite shape could read "fish"
+    let pickedAttribute = this.parentElement.parentElement.id;
+    let attributeCategory = this.parentElement.parentElement.parentElement.id;
     
-    switch(optionCategory){
+    switch(attributeCategory){
         case "shape":
-            usersPokemonAttributes.shape = pickedOption;
-            //fetch(api/v2/pokemon-shape/${pickedOption})
+            usersPokemonAttributes.shape = pickedAttribute;
+            //fetch(api/v2/pokemon-shape/${pickedAttribute})
             //function for removing this.eventlistener and class hidden from next question wrapper?
             break;
 
         case "color":
-            usersPokemonAttributes.color = pickedOption;
-            //fetch(api/v2/pokemon-shape/${pickedOption})
+            usersPokemonAttributes.color = pickedAttribute;
+            //fetch(api/v2/pokemon-shape/${pickedAttribute})
             //function for removing this.eventlistener and class hidden from next question wrapper?
             break;
 
         case "habitat":
-            usersPokemonAttributes.habitat = pickedOption;
-            //fetch(api/v2/pokemon-shape/${pickedOption})
+            usersPokemonAttributes.habitat = pickedAttribute;
+            //fetch(api/v2/pokemon-shape/${pickedAttribute})
             //function for removing this.eventlistener and class hidden from next question wrapper?
             break;
 
