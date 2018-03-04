@@ -15,6 +15,13 @@ const usersPokemonAttributes = {
 
 function savePickedAttribute(){
     //Outputs id of that attribute, for ex. picked favourite shape could read "fish"
+//These values will be generated from the picked attributes
+let apis = {
+    shapeUrl: '',
+    colorUrl: '',
+    habitatUrl: ''
+}
+
     let pickedAttribute = this.parentElement.parentElement.id;
     let attributeCategory = this.parentElement.parentElement.parentElement.id;
     let url = ` http://pokeapi.salestock.net/api/v2/${attributeCategory}/${pickedAttribute}/`;
