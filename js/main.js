@@ -1,9 +1,9 @@
 //Fetch elements from the DOM
 var attributeImages = document.getElementsByTagName('img');
 
-//Make every image the 
+//Clicking an image will "save" it's attribute and send it along to the fetch-function
 for (var i = 0; i < attributeImages.length; i++){
-    attributeImages[i].addEventListener('click', savePickedAttribute);
+    attributeImages[i].addEventListener('click', setAndFetchPickedAttribute);
 }
 
 //As the user picks their attributes, the values will be set
