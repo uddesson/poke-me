@@ -13,8 +13,6 @@ const usersPokemonAttributes = {
     habitat: ''
 }
 
-function savePickedAttribute(){
-    //Outputs id of that attribute, for ex. picked favourite shape could read "fish"
 //These values will be generated from the picked attributes
 let apis = {
     shapeUrl: '',
@@ -22,6 +20,8 @@ let apis = {
     habitatUrl: ''
 }
 
+function setAndFetchPickedAttribute(){
+    
     let pickedAttribute = this.parentElement.parentElement.id;
     let attributeCategory = this.parentElement.parentElement.parentElement.id;
     let url = ` http://pokeapi.salestock.net/api/v2/${attributeCategory}/${pickedAttribute}/`;
@@ -30,49 +30,86 @@ let apis = {
         case "pokemon-shape":
             usersPokemonAttributes.shape = pickedAttribute;
             //Use url to fetch pokemon with selected shape from api
-            var shapeUrl = APIurl; 
+            apis.shapeUrl = url;
+            console.log(usersPokemonAttributes); //Testing
             break;
 
         case "pokemon-color":
             usersPokemonAttributes.color = pickedAttribute;
-            var colorUrl = APIurl; 
+            apis.colorUrl = url;
+            console.log(usersPokemonAttributes); //Testing
             break;
 
-        case "pokemon-habitat":
+        // I make sure this is the last thing the user picks (fix with styling)
+        case "pokemon-habitat": 
             usersPokemonAttributes.habitat = pickedAttribute;
-            var habitatUrl = APIurl; 
+            apis.habitatUrl = url;
+            console.log(usersPokemonAttributes); //Testing
+            
+            //Send my requests (the object with different url:s) to the fetch-funciton
+            fetchCorrespondingDataFromApis(apis)
+           
             break;
 
         default: 
-            console.log("Switch default-message");
+            console.log("Switch default-message"); //Testing
             break;
     }
+}
 
-    console.log(usersPokemonAttributes); // For e.x {shape: "wings", color: "red", habitat: "grassland"}
+
+function fetchCorrespondingDataFromApis(apis){
+    // Create variables for requesting all three api-urls with fetch()
+    var apiRequestShape = fetch(`${apis.shapeUrl}`)
+    .then(function(response){ 
+        return response.json()
+        });
+
+    var apiRequestColor = fetch(`${apis.colorUrl}`)
+    .then(function(response){
+        return response.json()
+    });
+
+    var apiRequestHabitat = fetch(`${apis.habitatUrl}`)
+    .then(function(response){
+        return response.json()
+    });
+
+    //The values should be set to the correct data
+    var allRequests = {
+        "apiRequestShape":{},
+        "apiRequestColor":{},
+        "apiRequestHabitat":{}
+    };
     
-}
+    
+    /**Instead of reciving my promises one by one (would not have worked to compare the data) 
+    I use Promise.all which takes an array of promises (what I get from the three api-requests)
+    And then I can handle them all as the data is (hopefully) recived
+    */
+    Promise.all([apiRequestShape,apiRequestColor,apiRequestHabitat])
+        .then(function(pokemonData){
+        /* Since the pokemonData is an array of data from three url-requests, 
+        I need to use an index to get to the different content */
+        allRequests["apiRequestShape"] = pokemonData[0];
 
-//Need to fech ALL the urls AFTER the user has picked all of their attributes. Somehow.
+        //I only want the list of names, so I store that data into a variable using my function
+        let listOfPokemonWithShape = getPokemonNamesFromArray(pokemonData[0].pokemon_species);
+        
+        allRequests["apiRequestColor"] = pokemonData[1];
+        let listOfPokemonWithColor = getPokemonNamesFromArray(pokemonData[1].pokemon_species);
+        
+        allRequests["apiRequestHabitat"] = pokemonData[2];
+        let listOfPokemonWithHabitat = getPokemonNamesFromArray(pokemonData[2].pokemon_species);
+        
+        console.log(listOfPokemonWithShape);
+        console.log(listOfPokemonWithColor);
+        console.log(listOfPokemonWithHabitat);
 
 
-function fetchPokemonsWithAttribute(attributeCategory,pickedAttribute){
-    fetch(`https://pokeapi.co/api/v2/${attributeCategory}/${pickedAttribute}/`) 
-        .then(function(response){ //Hopefully recive data
-            return response.json(); 
-        })
-
-        .then(function(pokemonData){ 
-            const arrayWithPokemonData = pokemonData.pokemon_species; //Returns array of objects with id, url and name
-
-            let pokemonNames = getPokemonNamesFromArray(arrayWithPokemonData);
-            console.log(pokemonNames); //Array of pokemon names with the picked attribute!! 
-        })
-
-        .catch(function(error){
-            console.log(error)
-        })
-
-}
+        });
+        
+    }
 
 function getPokemonNamesFromArray(arrayWithPokemonData){
     let pokemonNames = [];
