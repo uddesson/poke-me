@@ -106,6 +106,8 @@ function fetchCorrespondingDataFromApis(apis){
         console.log(listOfPokemonWithColor);
         console.log(listOfPokemonWithHabitat);
 
+        //Work in progress
+        findMatchingPokemon(listOfPokemonWithShape,listOfPokemonWithColor,listOfPokemonWithHabitat);
 
         });
         
@@ -121,6 +123,26 @@ function getPokemonNamesFromArray(arrayWithPokemonData){
     console.log(pokemonNames); //Array with pokemon names!! 
     return pokemonNames; 
      
+}
+
+//WIP
+function findMatchingPokemon(shape,color,habitat){
+    
+    /* Since the arrays will be different lengths, make sure every name is looped through 
+    by using the longest array as loop-range */
+    var maxLengthOfArray = Math.max(shape.length, color.length, habitat.length);
+    var foundMatchingPokemon = false;
+    
+    //Maybe put matching ones in an array? 
+    
+        for (var i = 0; i < maxLengthOfArray; i++)
+        {   
+            console.log((shape[i] === color[i]) && (shape[i] === habitat[i]) && (shape[i] !== undefined));
+            {
+                // foundMatchingPokemon = true;
+                // console.log(shape[i])  
+            }
+        }
 }
 
 /*  IDEA NOTES:
