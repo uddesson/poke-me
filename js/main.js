@@ -17,7 +17,7 @@ function savePickedAttribute(){
     //Outputs id of that attribute, for ex. picked favourite shape could read "fish"
     let pickedAttribute = this.parentElement.parentElement.id;
     let attributeCategory = this.parentElement.parentElement.parentElement.id;
-    let APIurl = `https://pokeapi.co/api/v2/${attributeCategory}/${pickedAttribute}/`;
+    let url = ` http://pokeapi.salestock.net/api/v2/${attributeCategory}/${pickedAttribute}/`;
     
     switch(attributeCategory){
         case "pokemon-shape":
