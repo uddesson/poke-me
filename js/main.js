@@ -22,6 +22,7 @@ let apis = {
 
 function setAndFetchPickedAttribute(){
     
+    let questionWrapper = this.parentElement.parentElement.parentElement;
     let pickedAttribute = this.parentElement.parentElement.id;
     let attributeCategory = this.parentElement.parentElement.parentElement.id;
     let url = ` http://pokeapi.salestock.net/api/v2/${attributeCategory}/${pickedAttribute}/`;
@@ -31,12 +32,14 @@ function setAndFetchPickedAttribute(){
             usersPokemonAttributes.shape = pickedAttribute;
             //Use url to fetch pokemon with selected shape from api
             apis.shapeUrl = url;
+            styleWrapperByAction(questionWrapper)
             console.log(usersPokemonAttributes); //Testing
             break;
 
         case "pokemon-color":
             usersPokemonAttributes.color = pickedAttribute;
             apis.colorUrl = url;
+            styleWrapperByAction(questionWrapper)
             console.log(usersPokemonAttributes); //Testing
             break;
 
@@ -57,6 +60,19 @@ function setAndFetchPickedAttribute(){
     }
 }
 
+//Will help let the user know which question to answer
+function styleWrapperByAction(questionWrapper){    
+    //Style the answered question-wrappers so the user won't click them again
+    questionWrapper.classList.add('discarded');
+
+    //FIX: Need to remove the eventlistener as well, so they really CAN'T
+
+    //Find the next question wrapper
+    const nextQuestionWrapper = questionWrapper.nextElementSibling.nextElementSibling;
+    
+    //Make it appear
+    nextQuestionWrapper.classList.remove('hidden');
+};
 
 function fetchCorrespondingDataFromApis(apis){
     // Create variables for requesting all three api-urls with fetch()
