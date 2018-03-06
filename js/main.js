@@ -142,23 +142,28 @@ function getPokemonNamesFromArray(arrayWithPokemonData){
 }
 
 //WIP
-function findMatchingPokemon(shape,color,habitat){
+function findMatchingPokemon(color,habitat){
     
     /* Since the arrays will be different lengths, make sure every name is looped through 
     by using the longest array as loop-range */
-    var maxLengthOfArray = Math.max(shape.length, color.length, habitat.length);
-    var foundMatchingPokemon = false;
-    
-    //Maybe put matching ones in an array? 
+    var maxLengthOfArray = Math.max(color.length, habitat.length);
+    var listOfMatchingPokemon = []; //Maybe put matching ones in an array? 
     
         for (var i = 0; i < maxLengthOfArray; i++)
         {   
-            console.log((shape[i] === color[i]) && (shape[i] === habitat[i]) && (shape[i] !== undefined));
-            {
-                // foundMatchingPokemon = true;
-                // console.log(shape[i])  
+            if ((color[i] === habitat[i] && color[i] !== undefined) == true){
+                
+                listOfMatchingPokemon.push(color[i]);
+            }
+            else{
+               
             }
         }
+
+        console.log('Matching pokemon');
+        console.log(listOfMatchingPokemon);
+        
+        
 }
 
 /*  IDEA NOTES:
@@ -169,6 +174,9 @@ function findMatchingPokemon(shape,color,habitat){
     from api/v2/pokemon-species/color/red, which gives us the names of those pokemon
     
     We store them as a list of names. 
+    There aren't that many exact matching pokemon right now, so I need to decide on a way
+    of handling this. One way would be to limit the options to 3 !4. And make sure those
+    three are the categories that contain the most pokémon-species.
 
     When the user has picked all of their options, we'll have three(!) lists of pokemon
     names whose attributes fit the "picked option". 
