@@ -20,8 +20,33 @@ let apis = {
     habitatUrl: ''
 }
 
-function setAndFetchPickedAttribute(){
+//Arrays for testing purposes (REMOVE)
+let testArray1 = ["char", "bul", "pika", "squir"];
+let testArray2 = ["bul", "ekan", "char", "sea", "star", "chan"];
+let testArray3 = ["ekan", "bul", "char", "rai"];
+
+//New draft for finding matching names in different lists 
+function testFunction(testArray1, testArray2, testArray3){
+    let foundArray = []; //I want to save the matching names here
     
+    /* Filtering out all names (strings in array) that will pass 
+    through the following if statements */
+    testArray1.filter(function(name){
+        
+        /* Using indexOf I can check if the name is present in the other two arrays, 
+        (the return value should not be -1) and push that name into my array of matching Pokemon*/
+        if((testArray2.indexOf(name) !== -1) == true 
+        && (testArray3.indexOf(name) !== -1) == true){
+            foundArray.push(name);
+        }    
+    });
+    
+    console.log(foundArray); //["char", "bul"]    
+}
+
+testFunction(testArray1,testArray2,testArray3);
+
+
     let questionWrapper = this.parentElement.parentElement.parentElement;
     let pickedAttribute = this.parentElement.parentElement.id;
     let attributeCategory = this.parentElement.parentElement.parentElement.id;
