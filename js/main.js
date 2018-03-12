@@ -81,6 +81,11 @@ function handleUsersActions(){
 /* 
 ** Functions controlling styling and main output to user: 
 */ 
+
+function removeClassHidden(element){
+    element.classList.remove('hidden');
+}
+
 //Will help let the user know which question to answer
 function discardAndShowNext(questionWrapper){    
     //Style the answered question-wrappers so the user won't click them again (.. and they can't)
@@ -161,6 +166,37 @@ function fetchCorrespondingDataFromApis(apis){
     return spiritPokemon;    
 } 
 
+//Get an array of the data I want - only the Pokemon names
+function getPokemonNamesFromArray(arrayWithPokemonData){
+    let pokemonNames = [];
+
+        for (var i = 0; i < arrayWithPokemonData.length; i++){
+            pokemonNames.push(arrayWithPokemonData[i].name);
+        }
+    return pokemonNames; 
+}
+
+function findMatchingPokemon(shape, color, habitat){
+    let matchingPokemon = []; //Will be the list of matching names
+    
+    /* Filtering out all names (strings in array) that will pass 
+    through the following if statements */
+    shape.filter(function(name){
+
+        /* Using indexOf I can check if the name is present in the other two arrays, 
+        (the return value should not be -1) and push that name into my array of matching Pokémon */
+        if((color.indexOf(name) !== -1) == true 
+        && (habitat.indexOf(name) !== -1) == true)
+        {
+            matchingPokemon.push(name);
+        }    
+    });
+
+    // TODO: Maybe pick a random one?
+    spiritPokemon = matchingPokemon[0]; 
+    console.log(spiritPokemon); // Testing
+    return spiritPokemon;
+}
 
 function fetchFacts(spiritPokemon){
     let spiritPokemonurl = `http://pokeapi.salestock.net/api/v2/pokemon/${spiritPokemon}/`;
@@ -217,9 +253,6 @@ function limitColorOptionsBasedOn(shape){
     }
 }
 
-function removeClassHidden(element){
-    element.classList.remove('hidden');
-}
 
 
 function limitHabitatOptionsBasedOn(shape,color){
@@ -305,105 +338,6 @@ function limitHabitatOptionsBasedOn(shape,color){
         console.log("Switch default-message"); //Testing
         break;
     }
-}
-
-
-async function fetchCorrespondingDataFromApis(apis){
-    // Create variables for requesting all three api-urls with fetch()
-    var apiRequestShape = fetch(`${apis.shapeUrl}`)
-    .then(function(response){ 
-        return response.json()
-    });
-
-    var apiRequestColor = fetch(`${apis.colorUrl}`)
-    .then(function(response){
-        return response.json()
-    });
-
-    var apiRequestHabitat = fetch(`${apis.habitatUrl}`)
-    .then(function(response){
-        return response.json()
-    });
-
-    //The values should be set to the correct data
-    var allRequests = {
-        "apiRequestShape":{},
-        "apiRequestColor":{},
-        "apiRequestHabitat":{}
-    };
-    
-    
-    /**Instead of reciving my promises one by one (would not have worked to compare the data) 
-    I use Promise.all which takes an array of promises (what I get from the three api-requests)
-    And then I can handle them all as the data is (hopefully) recived
-    */
-    Promise.all([apiRequestShape,apiRequestColor,apiRequestHabitat])
-        .then(function(pokemonData){
-        /* Since the pokemonData is an array of data from three url-requests, 
-        I need to use an index to get to the different content */
-        allRequests["apiRequestShape"] = pokemonData[0];
-
-        //I only want the list of names, so I store that data into a variable using my function
-        let listOfPokemonWithShape = getPokemonNamesFromArray(pokemonData[0].pokemon_species);
-        
-        allRequests["apiRequestColor"] = pokemonData[1];
-        let listOfPokemonWithColor = getPokemonNamesFromArray(pokemonData[1].pokemon_species);
-        
-        allRequests["apiRequestHabitat"] = pokemonData[2];
-        let listOfPokemonWithHabitat = getPokemonNamesFromArray(pokemonData[2].pokemon_species);
-        
-        console.log(listOfPokemonWithShape);
-        console.log(listOfPokemonWithColor);
-        console.log(listOfPokemonWithHabitat);
-
-        //Work in progress
-        findMatchingPokemon(listOfPokemonWithShape,listOfPokemonWithColor,listOfPokemonWithHabitat);
-
-        });
-        
-    }
-
-function getPokemonNamesFromArray(arrayWithPokemonData){
-    let pokemonNames = [];
-
-        for (var i = 0; i < arrayWithPokemonData.length; i++){
-            pokemonNames.push(arrayWithPokemonData[i].name);
-        }
-    
-    console.log(pokemonNames); //Array with pokemon names!! 
-    return pokemonNames; 
-     
-}
-
-//New draft for finding matching names in different lists 
-function findMatchingPokemon(shape,color,habitat){
-    let matchingPokemon = []; //I want to save the matching names here
-    
-    /* Filtering out all names (strings in array) that will pass 
-    through the following if statements */
-    shape.filter(function(name){
-
-        /* Using indexOf I can check if the name is present in the other two arrays, 
-        (the return value should not be -1) and push that name into my array of matching Pokemon*/
-        if((color.indexOf(name) !== -1) == true 
-        && (habitat.indexOf(name) !== -1) == true){
-            matchingPokemon.push(name);
-            
-        }  
-
-    });
-
-    
-    if(matchingPokemon.length == 0){
-        console.log('No match') //For testing 
-        return;
-    }
-    
-    else{
-        console.log(matchingPokemon);
-        spiritPokemon = matchingPokemon[0];
-        return spiritPokemon;
-}
 
 /*  IDEA NOTES:
 
