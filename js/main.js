@@ -73,6 +73,7 @@ function setAndFetchPickedAttribute(){
             fetchCorrespondingDataFromApis(apis)
            
             spiritPokemon = fetchCorrespondingDataFromApis(apis);
+            setTimeout(function(){fetchFacts(spiritPokemon)}, 2000);
             break;
 
         default: 
@@ -100,6 +101,91 @@ function makeOptionsUnclickable(questionWrapper){
     for (i = 0; i < range; i++){
         questionWrapper.children[i].removeEventListener('click', setAndFetchPickedAttribute);
     }
+}
+
+
+/* 
+** Functions used for handling, fetching and returning promises + data from Pokeapi
+** https://pokeapi.co/
+*/ 
+
+function fetchCorrespondingDataFromApis(apis){
+    // Create variables for requesting all three api-urls with fetch()
+    var apiRequestShape = fetch(`${apis.shapeUrl}`)
+    .then((response) => response.json());
+
+    var apiRequestColor = fetch(`${apis.colorUrl}`)
+    .then((response) => response.json());
+
+    var apiRequestHabitat = fetch(`${apis.habitatUrl}`)
+    .then((response) => response.json());
+
+    //These values should be set to the correct data and makes it easier to keep track of
+    var allRequests = {
+        "apiRequestShape":{},
+        "apiRequestColor":{},
+        "apiRequestHabitat":{}
+    };
+    
+    /** Instead of reciving my promises one by one (would not have worked to compare the data) 
+    I use Promise.all which takes an array of promises (what I get from the three api-requests)
+    And then I can handle them all as the data is (hopefully) recived
+    */
+    Promise.all([apiRequestShape,apiRequestColor,apiRequestHabitat])
+    .then((pokemonData) => {
+    /* Since the pokemonData is an array of data from three url-requests, 
+    I need to use an index to get to the different content */
+    allRequests["apiRequestShape"] = pokemonData[0];
+
+    //I only want the list of names, so I store that data into a variable using my function
+    let listOfPokemonWithShape = getPokemonNamesFromArray(pokemonData[0].pokemon_species);
+    
+    allRequests["apiRequestColor"] = pokemonData[1];
+    let listOfPokemonWithColor = getPokemonNamesFromArray(pokemonData[1].pokemon_species);
+    
+    allRequests["apiRequestHabitat"] = pokemonData[2];
+    let listOfPokemonWithHabitat = getPokemonNamesFromArray(pokemonData[2].pokemon_species);
+
+    spiritPokemon = findMatchingPokemon(listOfPokemonWithShape, listOfPokemonWithColor,listOfPokemonWithHabitat);    
+    })
+
+    .catch(pokemonData => {
+        console.error();
+        const resultText = document.
+            createElement('p');
+        resultText.innerText = `Something went wrong.`;
+        resultTextWrapper.appendChild(resultText);
+    });
+    
+    return spiritPokemon;    
+} 
+
+
+function fetchFacts(spiritPokemon){
+    let spiritPokemonurl = `http://pokeapi.salestock.net/api/v2/pokemon/${spiritPokemon}/`;
+
+    fetch(spiritPokemonurl)
+    .then((pokemonData) => pokemonData.json())
+  
+    .then((pokemonData) => {
+        console.log(`Your spiritpokemon is: ${spiritPokemon}`);
+        console.log(pokemonData.sprites.front_default);
+       
+        const pokemonImage = document.
+            createElement('img');
+            pokemonImage.src = pokemonData.sprites.front_default;
+            pokemonImage.alt = spiritPokemon;
+            resultImageWrapper.appendChild(pokemonImage);      
+
+        const resultText = document.
+            createElement('p');
+            resultText.innerText = `Your spiritpokémon today is ${spiritPokemon}.`;
+            resultTextWrapper.appendChild(resultText);    
+    })
+    
+    .catch(pokemonData => {
+        console.error();
+    });
 }
 
 function limitColorOptionsBasedOn(shape){
