@@ -49,6 +49,7 @@ function setAndFetchPickedAttribute(){
             styleWrapperByAction(questionWrapper)
             styleOptionsByAction(questionWrapper);
             limitColorOptionsBasedOn(usersPokemonAttributes.shape);
+            makeOptionsUnclickable(questionWrapper);
             console.log(usersPokemonAttributes); //Testing
             break;
 
@@ -58,6 +59,7 @@ function setAndFetchPickedAttribute(){
             styleWrapperByAction(questionWrapper)
             styleOptionsByAction(questionWrapper)
             limitHabitatOptionsBasedOn(usersPokemonAttributes.shape, usersPokemonAttributes.color);
+            makeOptionsUnclickable(questionWrapper);
             console.log(usersPokemonAttributes); //Testing
             break;
 
@@ -84,14 +86,21 @@ function styleOptionsByAction(questionWrapper){
     //Style the answered question-wrappers so the user won't click them again
     questionWrapper.classList.add('discarded');
 
-    //FIX: Need to remove the eventlistener as well, so they really CAN'T
-
     //Find the next question wrapper
     const nextQuestionWrapper = questionWrapper.nextElementSibling.nextElementSibling;
     
     //Make it appear
     removeClassHidden(nextQuestionWrapper);
 };
+
+function makeOptionsUnclickable(questionWrapper){
+    var range = questionWrapper.children.length;
+    var i = 0;
+
+    for (i = 0; i < range; i++){
+        questionWrapper.children[i].removeEventListener('click', setAndFetchPickedAttribute);
+    }
+}
 
 function limitColorOptionsBasedOn(shape){
     switch(shape){
