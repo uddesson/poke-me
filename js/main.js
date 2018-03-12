@@ -84,32 +84,36 @@ function styleOptionsByAction(questionWrapper){
     const nextQuestionWrapper = questionWrapper.nextElementSibling.nextElementSibling;
     
     //Make it appear
-    nextQuestionWrapper.classList.remove('hidden');
+    removeClassHidden(nextQuestionWrapper);
 };
 
 function limitColorOptionsBasedOn(shape){
     switch(shape){
         case "upright":
             for(var i = 0; i < allColorOptions.length; i++){
-                allColorOptions[i].classList.remove('hidden');
+                removeClassHidden(allColorOptions[i]);
             }
         break;
 
         case "quadruped":
             for(var i = 0; i < allColorOptions.length; i++){
-                allColorOptions[i].classList.remove('hidden');
+                removeClassHidden(allColorOptions[i]);
             }
         break;
 
         case "wings":
             for(var i = 0; i < allColorOptions.length; i++){
                 if(allColorOptions[i].id != "yellow"){
-                    allColorOptions[i].classList.remove('hidden');
+                    removeClassHidden(allColorOptions[i]);
                 }
             }
         break;
 
     }
+}
+
+function removeClassHidden(element){
+    element.classList.remove('hidden');
 }
         break;
 
