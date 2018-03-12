@@ -1,4 +1,4 @@
-//Fetch elements from the DOM
+// Fetch elements from the DOM
 const optionBox = document.getElementsByClassName('option-box');
 const resultWrapper = document.getElementById('result-wrapper');
 const resultImageWrapper = document.getElementById('result-image-wrapper');
@@ -7,73 +7,69 @@ const resultTextWrapper = document.getElementById('result-text-wrapper');
 const allShapeOptions = [optionBox.upright, optionBox.quadruped, optionBox.wings];
 const allColorOptions = [optionBox.green, optionBox.red, optionBox.yellow, optionBox.blue];
 const allHabitatOptions = [optionBox.mountain, optionBox.forest, optionBox.grassland, optionBox[10]]; 
-/* optionBox[10] is "waters-edge", but because of the "-" I can't print the id name 
+/* optionBox[10] is "waters-edge", but because of the "-" that can't be used for the value this way,
 so I use the number 10 from the HTML-collection to identify it */
 
-
-//Clicking an option-box will "save" it's attribute and send it along to the fetch-function
+// I want the option-boxes to be the thing the user clicks to move forward
 for (var i = 0; i < optionBox.length; i++){
-    optionBox[i].addEventListener('click', setAndFetchPickedAttribute);
+    optionBox[i].addEventListener('click', handleUsersActions);
 }
 
-//As the user picks their attributes, the values will be set
+// As the user picks their attributes, the values will be set
 const usersPokemonAttributes = {
     shape: '',
     color: '',
     habitat: ''
 }
 
-let spiritPokemon = undefined;
-//These values will be generated from the picked attributes
+// These values will in turn be generated from the picked attributes
 let apis = {
     shapeUrl: '',
     colorUrl: '',
     habitatUrl: ''
 }
 
+// This will be our spiritpokémon - the result!
+let spiritPokemon = undefined;
 
-    let questionWrapper = this.parentElement.parentElement.parentElement;
-    let pickedAttribute = this.parentElement.parentElement.id;
-    let attributeCategory = this.parentElement.parentElement.parentElement.id;
-    let url = ` http://pokeapi.salestock.net/api/v2/${attributeCategory}/${pickedAttribute}/`;
-function setAndFetchPickedAttribute(){
-    let questionWrapper = this.parentElement;
-    let pickedAttribute = this.id;
+function handleUsersActions(){
+    let questionWrapper = this.parentElement; 
     let attributeCategory = this.parentElement.id;
+    let pickedAttribute = this.id;
+    let url = `http://pokeapi.salestock.net/api/v2/${attributeCategory}/${pickedAttribute}/`;
     
     switch(attributeCategory){
         case "pokemon-shape":
-            usersPokemonAttributes.shape = pickedAttribute;
-            //Use url to fetch pokemon with selected shape from api
+            usersPokemonAttributes.shape = pickedAttribute; 
             apis.shapeUrl = url;
-            styleWrapperByAction(questionWrapper)
-            styleOptionsByAction(questionWrapper);
+            discardAndShowNext(questionWrapper);
             limitColorOptionsBasedOn(usersPokemonAttributes.shape);
-            makeOptionsUnclickable(questionWrapper);
+            makeOptionsUnclickable(questionWrapper); 
             console.log(usersPokemonAttributes); //Testing
             break;
 
         case "pokemon-color":
             usersPokemonAttributes.color = pickedAttribute;
             apis.colorUrl = url;
-            styleWrapperByAction(questionWrapper)
-            styleOptionsByAction(questionWrapper)
+            discardAndShowNext(questionWrapper);
             limitHabitatOptionsBasedOn(usersPokemonAttributes.shape, usersPokemonAttributes.color);
             makeOptionsUnclickable(questionWrapper);
             console.log(usersPokemonAttributes); //Testing
             break;
 
-        // I make sure this is the last thing the user picks (fix with styling)
         case "pokemon-habitat": 
             usersPokemonAttributes.habitat = pickedAttribute;
             apis.habitatUrl = url;
-            console.log(usersPokemonAttributes); //Testing
-            
-            //Send my requests (the object with different url:s) to the fetch-funciton
-            fetchCorrespondingDataFromApis(apis)
-           
+            //Send my requests to the fetch-funciton and return a spirit pokémon
             spiritPokemon = fetchCorrespondingDataFromApis(apis);
+            
+            // NO 1 TODO: Make the next fetch-function wait for a spirit pokémon! 
             setTimeout(function(){fetchFacts(spiritPokemon)}, 2000);
+
+            makeOptionsUnclickable(questionWrapper);
+            
+            // TODO: Create a submit-button if the user wants to do the test again
+            console.log(usersPokemonAttributes); //Testing
             break;
 
         default: 
@@ -82,9 +78,12 @@ function setAndFetchPickedAttribute(){
     }
 }
 
+/* 
+** Functions controlling styling and main output to user: 
+*/ 
 //Will help let the user know which question to answer
-function styleOptionsByAction(questionWrapper){    
-    //Style the answered question-wrappers so the user won't click them again
+function discardAndShowNext(questionWrapper){    
+    //Style the answered question-wrappers so the user won't click them again (.. and they can't)
     questionWrapper.classList.add('discarded');
 
     //Find the next question wrapper
@@ -98,6 +97,8 @@ function makeOptionsUnclickable(questionWrapper){
     var range = questionWrapper.children.length;
     var i = 0;
 
+    /* Remove all eventlisteners from option-boxes within this current questionwrapper.
+    This function is called after they have been clicked */ 
     for (i = 0; i < range; i++){
         questionWrapper.children[i].removeEventListener('click', setAndFetchPickedAttribute);
     }
