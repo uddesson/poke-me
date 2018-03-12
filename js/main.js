@@ -60,12 +60,8 @@ function handleUsersActions(){
         case "pokemon-habitat": 
             usersPokemonAttributes.habitat = pickedAttribute;
             apis.habitatUrl = url;
-            //Send my requests to the fetch-funciton and return a spirit pokémon
+            //Send my requests to the fetch-funcitons and return a spirit pokémon
             spiritPokemon = fetchCorrespondingDataFromApis(apis);
-            
-            // NO 1 TODO: Make the next fetch-function wait for a spirit pokémon! 
-            setTimeout(function(){fetchFacts(spiritPokemon)}, 2000);
-
             makeOptionsUnclickable(questionWrapper);
 
             // TODO: Create a submit-button if the user wants to do the test again
@@ -151,7 +147,24 @@ function fetchCorrespondingDataFromApis(apis){
     allRequests["apiRequestHabitat"] = pokemonData[2];
     let listOfPokemonWithHabitat = getPokemonNamesFromArray(pokemonData[2].pokemon_species);
 
-    spiritPokemon = findMatchingPokemon(listOfPokemonWithShape, listOfPokemonWithColor,listOfPokemonWithHabitat);    
+    let spiritPokemonUrl = findMatchingPokemon(listOfPokemonWithShape, listOfPokemonWithColor,listOfPokemonWithHabitat);    
+    })
+
+    .then(() => { 
+        fetch(spiritPokemonUrl)
+        .then((spiritPokemonData) => spiritPokemonData.json())
+        .then((spiritPokemonData) => { 
+            const pokemonImage = document.
+            createElement('img');
+            pokemonImage.src = spiritPokemonData.sprites.front_default;
+            pokemonImage.alt = spiritPokemon;
+            resultImageWrapper.appendChild(pokemonImage);      
+
+            const resultText = document.
+            createElement('p');
+            resultText.innerText = `Your spiritpokémon is ${spiritPokemon}.`;
+            resultTextWrapper.appendChild(resultText);    
+        });
     })
 
     .catch(pokemonData => {
@@ -161,8 +174,6 @@ function fetchCorrespondingDataFromApis(apis){
         resultText.innerText = `Something went wrong.`;
         resultTextWrapper.appendChild(resultText);
     });
-    
-    return spiritPokemon;    
 } 
 
 //Get an array of the data I want - only the Pokemon names
@@ -193,36 +204,10 @@ function findMatchingPokemon(shape, color, habitat){
 
     // TODO: Maybe pick a random one?
     spiritPokemon = matchingPokemon[0]; 
-    console.log(spiritPokemon); // Testing
-    return spiritPokemon;
+    spiritPokemonUrl = `http://pokeapi.salestock.net/api/v2/pokemon/${spiritPokemon}/`;
+    return spiritPokemonUrl;
 }
 
-function fetchFacts(spiritPokemon){
-    let spiritPokemonurl = `http://pokeapi.salestock.net/api/v2/pokemon/${spiritPokemon}/`;
-
-    fetch(spiritPokemonurl)
-    .then((pokemonData) => pokemonData.json())
-  
-    .then((pokemonData) => {
-        console.log(`Your spiritpokemon is: ${spiritPokemon}`);
-        console.log(pokemonData.sprites.front_default);
-       
-        const pokemonImage = document.
-            createElement('img');
-            pokemonImage.src = pokemonData.sprites.front_default;
-            pokemonImage.alt = spiritPokemon;
-            resultImageWrapper.appendChild(pokemonImage);      
-
-        const resultText = document.
-            createElement('p');
-            resultText.innerText = `Your spiritpokémon today is ${spiritPokemon}.`;
-            resultTextWrapper.appendChild(resultText);    
-    })
-    
-    .catch(pokemonData => {
-        console.error();
-    });
-}
 
 function limitColorOptionsBasedOn(shape){
     switch(shape){
