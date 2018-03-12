@@ -1,6 +1,15 @@
 //Fetch elements from the DOM
 var attributeImages = document.getElementsByTagName('img');
+const resultWrapper = document.getElementById('result-wrapper');
+const resultImageWrapper = document.getElementById('result-image-wrapper');
+const resultTextWrapper = document.getElementById('result-text-wrapper');
 
+const optionBox = document.getElementsByClassName('option-box');
+const allShapeOptions = [optionBox.upright, optionBox.quadruped, optionBox.wings];
+const allColorOptions = [optionBox.green, optionBox.red, optionBox.yellow, optionBox.blue];
+const allHabitatOptions = [optionBox.mountain, optionBox.forest, optionBox.grassland, optionBox[10]]; 
+/* optionBox[10] is "waters-edge", but because of the "-" I can't print the id name 
+so I use the number 10 from the HTML-collection to identify it */
 //Clicking an image will "save" it's attribute and send it along to the fetch-function
 for (var i = 0; i < attributeImages.length; i++){
     attributeImages[i].addEventListener('click', setAndFetchPickedAttribute);
