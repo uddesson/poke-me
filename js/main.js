@@ -43,6 +43,7 @@ let apis = {
             apis.shapeUrl = url;
             styleWrapperByAction(questionWrapper)
             styleOptionsByAction(questionWrapper);
+            limitColorOptionsBasedOn(usersPokemonAttributes.shape);
             console.log(usersPokemonAttributes); //Testing
             break;
 
@@ -86,7 +87,32 @@ function styleOptionsByAction(questionWrapper){
     nextQuestionWrapper.classList.remove('hidden');
 };
 
-function fetchCorrespondingDataFromApis(apis){
+function limitColorOptionsBasedOn(shape){
+    switch(shape){
+        case "upright":
+            for(var i = 0; i < allColorOptions.length; i++){
+                allColorOptions[i].classList.remove('hidden');
+            }
+        break;
+
+        case "quadruped":
+            for(var i = 0; i < allColorOptions.length; i++){
+                allColorOptions[i].classList.remove('hidden');
+            }
+        break;
+
+        case "wings":
+            for(var i = 0; i < allColorOptions.length; i++){
+                if(allColorOptions[i].id != "yellow"){
+                    allColorOptions[i].classList.remove('hidden');
+                }
+            }
+        break;
+
+    }
+}
+        break;
+
     // Create variables for requesting all three api-urls with fetch()
     var apiRequestShape = fetch(`${apis.shapeUrl}`)
     .then(function(response){ 
