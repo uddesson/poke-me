@@ -52,6 +52,7 @@ let apis = {
             apis.colorUrl = url;
             styleWrapperByAction(questionWrapper)
             styleOptionsByAction(questionWrapper)
+            limitHabitatOptionsBasedOn(usersPokemonAttributes.shape, usersPokemonAttributes.color);
             console.log(usersPokemonAttributes); //Testing
             break;
 
@@ -97,13 +98,16 @@ function limitColorOptionsBasedOn(shape){
 
         case "quadruped":
             for(var i = 0; i < allColorOptions.length; i++){
-                removeClassHidden(allColorOptions[i]);
+                if(allColorOptions[i].id != "red"){
+                    removeClassHidden(allColorOptions[i]);
+                }
             }
         break;
 
         case "wings":
             for(var i = 0; i < allColorOptions.length; i++){
-                if(allColorOptions[i].id != "yellow"){
+                if((allColorOptions[i].id != "yellow")
+                && (allColorOptions[i].id != "green")){
                     removeClassHidden(allColorOptions[i]);
                 }
             }
@@ -115,13 +119,100 @@ function limitColorOptionsBasedOn(shape){
 function removeClassHidden(element){
     element.classList.remove('hidden');
 }
+
+
+function limitHabitatOptionsBasedOn(shape,color){
+    switch (shape){
+        case "upright":
+            if(color == "green"){
+                for(var i = 0; i < allHabitatOptions.length; i++){
+                    if(allHabitatOptions[i].id != "waters-edge"){
+                        removeClassHidden(allHabitatOptions[i]);
+                    }
+                }
+            }
+            else if(color == "yellow"){
+                for(var i = 0; i < allHabitatOptions.length; i++){
+                    if(allHabitatOptions[i].id != "mountain"){
+                        removeClassHidden(allHabitatOptions[i]);
+                    }
+                }
+            }
+            else if(color == "red"){
+                for(var i = 0; i < allHabitatOptions.length; i++){
+                    if((allHabitatOptions[i].id != "forest") 
+                    && (allHabitatOptions[i].id != "waters-edge")){
+                        removeClassHidden(allHabitatOptions[i]);
+                    }
+                }
+            }
+            else if(color == "blue"){
+                for(var i = 0; i < allHabitatOptions.length; i++){
+                    if((allHabitatOptions[i].id != "forest") 
+                    && (allHabitatOptions[i].id != "mountain")){
+                        removeClassHidden(allHabitatOptions[i]);
+                    }
+                }
+            }
+        break;
+        
+        case "quadruped":
+            if(color == "green"){
+                for(var i = 0; i < allHabitatOptions.length; i++){
+                    if((allHabitatOptions[i].id != "waters-edge") 
+                    && (allHabitatOptions[i].id != "mountain")){
+                        removeClassHidden(allHabitatOptions[i]);
+                    }
+                }
+            }
+            else if(color == "yellow"){
+                for(var i = 0; i < allHabitatOptions.length; i++){
+                    if(allHabitatOptions[i].id != "waters-edge"){
+                        removeClassHidden(allHabitatOptions[i]);
+                    }
+                }
+            }
+            else if(color == "blue"){
+                for(var i = 0; i < allHabitatOptions.length; i++){
+                    if((allHabitatOptions[i].id != "forest") 
+                    && (allHabitatOptions[i].id != "mountain")){
+                        removeClassHidden(allHabitatOptions[i]);
+                    }
+                }
+            }
+
         break;
 
+        case "wings":
+            if(color == "red"){
+                for(var i = 0; i < allHabitatOptions.length; i++){
+                    if(allHabitatOptions[i].id != "grassland"){
+                        removeClassHidden(allHabitatOptions[i]);
+                    }
+                }
+            }
+            else if(color == "blue"){
+                for(var i = 0; i < allHabitatOptions.length; i++){
+                    if(allHabitatOptions[i].id != "mountain"){
+                        removeClassHidden(allHabitatOptions[i]);
+                    }
+                }
+            }
+        break;
+
+        default: 
+        console.log("Switch default-message"); //Testing
+        break;
+    }
+}
+
+
+async function fetchCorrespondingDataFromApis(apis){
     // Create variables for requesting all three api-urls with fetch()
     var apiRequestShape = fetch(`${apis.shapeUrl}`)
     .then(function(response){ 
         return response.json()
-        });
+    });
 
     var apiRequestColor = fetch(`${apis.colorUrl}`)
     .then(function(response){
