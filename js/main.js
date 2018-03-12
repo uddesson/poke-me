@@ -160,13 +160,16 @@ function findMatchingPokemon(shape,color,habitat){
 
     });
 
-    // console.log('Matching pokemon:')
-    console.log(matchingPokemon); 
     
-
-    spiritPokemon = matchingPokemon[0];
-    return spiritPokemon;
+    if(matchingPokemon.length == 0){
+        console.log('No match') //For testing 
+        return;
+    }
     
+    else{
+        console.log(matchingPokemon);
+        spiritPokemon = matchingPokemon[0];
+        return spiritPokemon;
 }
 
 /*  IDEA NOTES:
