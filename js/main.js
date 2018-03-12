@@ -67,7 +67,7 @@ function handleUsersActions(){
             setTimeout(function(){fetchFacts(spiritPokemon)}, 2000);
 
             makeOptionsUnclickable(questionWrapper);
-            
+
             // TODO: Create a submit-button if the user wants to do the test again
             console.log(usersPokemonAttributes); //Testing
             break;
@@ -101,7 +101,6 @@ function discardAndShowNext(questionWrapper){
 function makeOptionsUnclickable(questionWrapper){
     var range = questionWrapper.children.length;
     var i = 0;
-
     /* Remove all eventlisteners from option-boxes within this current questionwrapper.
     This function is called after they have been clicked */ 
     for (i = 0; i < range; i++){
@@ -249,11 +248,8 @@ function limitColorOptionsBasedOn(shape){
                 }
             }
         break;
-
     }
 }
-
-
 
 function limitHabitatOptionsBasedOn(shape,color){
     switch (shape){
@@ -314,7 +310,6 @@ function limitHabitatOptionsBasedOn(shape,color){
                     }
                 }
             }
-
         break;
 
         case "wings":
@@ -338,29 +333,4 @@ function limitHabitatOptionsBasedOn(shape,color){
         console.log("Switch default-message"); //Testing
         break;
     }
-
-/*  IDEA NOTES:
-
-    Every time the user pickes an option - send them in as values to fetch()
-    and fetch corresponding data from pokeapi. For ex. user picks "red" 
-    as their favourite color. A list of pokemon with that attribute is fetched
-    from api/v2/pokemon-species/color/red, which gives us the names of those pokemon
-    
-    We store them as a list of names. 
-    There aren't that many exact matching pokemon right now, so I need to decide on a way
-    of handling this. One way would be to limit the options to 3 !4. And make sure those
-    three are the categories that contain the most pokémon-species.
-
-    When the user has picked all of their options, we'll have three(!) lists of pokemon
-    names whose attributes fit the "picked option". 
-    
-    Then I can loop through these lists and find the first pokemon (name) that exists
-    in all three lists. That would be the result.
-
-    I could then fetch some more data on that pokemon from  api/v2/pokemon-species/name
-    for e.x they all have a short description (string) in english
-
-    Also .. somehow save the fetched data, maybe in sessionStorage, to avoid 
-    maybe having to download that same "pokemon" again 
-
-*/
+}
