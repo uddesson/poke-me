@@ -105,7 +105,7 @@ function makeOptionsUnclickable(questionWrapper){
     /* Remove all eventlisteners from option-boxes within this current questionwrapper.
     This function is called after they have been clicked */ 
     for (i = 0; i < range; i++){
-        questionWrapper.children[i].removeEventListener('click', setAndFetchPickedAttribute);
+        questionWrapper.children[i].removeEventListener('click', handleUsersActions);
     }
 }
 
