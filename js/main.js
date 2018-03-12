@@ -42,6 +42,7 @@ let apis = {
             //Use url to fetch pokemon with selected shape from api
             apis.shapeUrl = url;
             styleWrapperByAction(questionWrapper)
+            styleOptionsByAction(questionWrapper);
             console.log(usersPokemonAttributes); //Testing
             break;
 
@@ -49,6 +50,7 @@ let apis = {
             usersPokemonAttributes.color = pickedAttribute;
             apis.colorUrl = url;
             styleWrapperByAction(questionWrapper)
+            styleOptionsByAction(questionWrapper)
             console.log(usersPokemonAttributes); //Testing
             break;
 
@@ -71,7 +73,7 @@ let apis = {
 }
 
 //Will help let the user know which question to answer
-function styleWrapperByAction(questionWrapper){    
+function styleOptionsByAction(questionWrapper){    
     //Style the answered question-wrappers so the user won't click them again
     questionWrapper.classList.add('discarded');
 
