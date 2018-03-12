@@ -212,26 +212,15 @@ function findMatchingPokemon(shape, color, habitat){
 function limitColorOptionsBasedOn(shape){
     switch(shape){
         case "upright":
-            for(var i = 0; i < allColorOptions.length; i++){
-                removeClassHidden(allColorOptions[i]);
-            }
+            excludeFromOptions(allColorOptions);
         break;
 
         case "quadruped":
-            for(var i = 0; i < allColorOptions.length; i++){
-                if(allColorOptions[i].id != "red"){
-                    removeClassHidden(allColorOptions[i]);
-                }
-            }
+            excludeFromOptions(allColorOptions, "red")
         break;
 
         case "wings":
-            for(var i = 0; i < allColorOptions.length; i++){
-                if((allColorOptions[i].id != "yellow")
-                && (allColorOptions[i].id != "green")){
-                    removeClassHidden(allColorOptions[i]);
-                }
-            }
+            excludeFromOptions(allColorOptions, "yellow", "green");
         break;
     }
 }
@@ -240,82 +229,62 @@ function limitHabitatOptionsBasedOn(shape,color){
     switch (shape){
         case "upright":
             if(color == "green"){
-                for(var i = 0; i < allHabitatOptions.length; i++){
-                    if(allHabitatOptions[i].id != "waters-edge"){
-                        removeClassHidden(allHabitatOptions[i]);
-                    }
-                }
+                excludeFromOptions(allHabitatOptions, "waters-edge");
             }
             else if(color == "yellow"){
-                for(var i = 0; i < allHabitatOptions.length; i++){
-                    if(allHabitatOptions[i].id != "mountain"){
-                        removeClassHidden(allHabitatOptions[i]);
-                    }
-                }
+                excludeFromOptions(allHabitatOptions, "mountain");
             }
             else if(color == "red"){
-                for(var i = 0; i < allHabitatOptions.length; i++){
-                    if((allHabitatOptions[i].id != "forest") 
-                    && (allHabitatOptions[i].id != "waters-edge")){
-                        removeClassHidden(allHabitatOptions[i]);
-                    }
-                }
+                excludeFromOptions(allHabitatOptions, "waters-edge", "forest");
             }
             else if(color == "blue"){
-                for(var i = 0; i < allHabitatOptions.length; i++){
-                    if((allHabitatOptions[i].id != "forest") 
-                    && (allHabitatOptions[i].id != "mountain")){
-                        removeClassHidden(allHabitatOptions[i]);
-                    }
-                }
+                excludeFromOptions(allHabitatOptions, "forest", "mountain");
             }
         break;
         
         case "quadruped":
             if(color == "green"){
-                for(var i = 0; i < allHabitatOptions.length; i++){
-                    if((allHabitatOptions[i].id != "waters-edge") 
-                    && (allHabitatOptions[i].id != "mountain")){
-                        removeClassHidden(allHabitatOptions[i]);
-                    }
-                }
+                excludeFromOptions(allHabitatOptions, "waters-edge", "mountain");
             }
             else if(color == "yellow"){
-                for(var i = 0; i < allHabitatOptions.length; i++){
-                    if(allHabitatOptions[i].id != "waters-edge"){
-                        removeClassHidden(allHabitatOptions[i]);
-                    }
-                }
+                excludeFromOptions(allHabitatOptions, "waters-edge");
             }
             else if(color == "blue"){
-                for(var i = 0; i < allHabitatOptions.length; i++){
-                    if((allHabitatOptions[i].id != "forest") 
-                    && (allHabitatOptions[i].id != "mountain")){
-                        removeClassHidden(allHabitatOptions[i]);
-                    }
-                }
+                excludeFromOptions(allHabitatOptions, "forest", "mountain");
             }
         break;
 
         case "wings":
             if(color == "red"){
-                for(var i = 0; i < allHabitatOptions.length; i++){
-                    if(allHabitatOptions[i].id != "grassland"){
-                        removeClassHidden(allHabitatOptions[i]);
-                    }
-                }
+                excludeFromOptions(allHabitatOptions, "grassland");
             }
             else if(color == "blue"){
-                for(var i = 0; i < allHabitatOptions.length; i++){
-                    if(allHabitatOptions[i].id != "mountain"){
-                        removeClassHidden(allHabitatOptions[i]);
-                    }
-                }
+                excludeFromOptions(allHabitatOptions, "mountain");
             }
         break;
 
         default: 
         console.log("Switch default-message"); //Testing
         break;
+    }
+}
+
+function excludeFromOptions(allOptions, a, b){
+    for(var i = 0; i < allOptions.length; i++){
+        
+        if (a != undefined && b == undefined){
+            if(allOptions[i].id != a){
+            removeClassHidden(allOptions[i]);
+            }
+        }
+        if (b != undefined){
+            if(allOptions[i].id != a && allOptions[i].id != b){
+                removeClassHidden(allOptions[i]);
+            }
+            
+        }
+        else if(a == undefined && b == undefined){
+            removeClassHidden(allOptions[i]);
+        }
     }
 }
