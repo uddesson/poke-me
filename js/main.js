@@ -3,6 +3,7 @@ const optionBox = document.getElementsByClassName('option-box');
 const resultWrapper = document.getElementById('result-wrapper');
 const resultImageWrapper = document.getElementById('result-image-wrapper');
 const resultTextWrapper = document.getElementById('result-text-wrapper');
+const retakeTestWrapper = document.getElementById('retake-test');
 
 const allShapeOptions = [optionBox.upright, optionBox.quadruped, optionBox.wings];
 const allColorOptions = [optionBox.green, optionBox.red, optionBox.yellow, optionBox.blue];
@@ -64,7 +65,6 @@ function handleUsersActions(){
             spiritPokemon = fetchCorrespondingDataFromApis(apis);
             makeOptionsUnclickable(questionWrapper);
 
-            // TODO: Create a submit-button if the user wants to do the test again
             console.log(usersPokemonAttributes); //Testing
             break;
 
@@ -104,6 +104,19 @@ function makeOptionsUnclickable(questionWrapper){
     }
 }
 
+function showActionButton(){
+    const button = document
+        .createElement('input'); 
+    button.type = "submit";
+    button.value = "Retake";
+    button.id = "retake-test-btn";
+    button.addEventListener('click', retakeTest); 
+    retakeTestWrapper.appendChild(button);
+}
+
+function retakeTest(){
+    window.location.reload();
+}
 
 /* 
 ** Functions used for handling, fetching and returning promises + data from Pokeapi
@@ -164,6 +177,9 @@ function fetchCorrespondingDataFromApis(apis){
             createElement('p');
             resultText.innerText = `Your spiritpokémon is ${spiritPokemon}.`;
             resultTextWrapper.appendChild(resultText);    
+        .then((spiritPokemonData) => {
+            showActionButton();
+        })
         });
     })
 
