@@ -1,6 +1,7 @@
 // Fetch elements from the DOM
 const optionBox = document.getElementsByClassName('option-box');
 const resultWrapper = document.getElementById('result-wrapper');
+const loadingIcon = document.getElementById('loading-icon');
 const resultImageWrapper = document.getElementById('result-image-wrapper');
 const resultTextWrapper = document.getElementById('result-text-wrapper');
 const retakeTestWrapper = document.getElementById('retake-test');
@@ -66,6 +67,7 @@ function handleUsersActions(){
             makeOptionsUnclickable(questionWrapper);
 
             console.log(usersPokemonAttributes); //Testing
+            loading("run");
             break;
 
         default: 
@@ -114,6 +116,7 @@ function displayErrorMessage(){
 function displayResults(spiritPokemonData){
     const pokemonImage = document.
     createElement('img');
+    pokemonImage.onload = function(){loading("stop")};
     pokemonImage.src = spiritPokemonData.sprites.front_default;
     pokemonImage.alt = spiritPokemon;
     resultImageWrapper.appendChild(pokemonImage);  
@@ -122,6 +125,15 @@ function displayResults(spiritPokemonData){
     createElement('p');
     resultText.innerText = `Your spiritpokémon is ${spiritPokemon}.`;
     resultTextWrapper.appendChild(resultText);   
+}
+
+function loading(state){
+    if (state == "run"){ 
+        loadingIcon.classList.remove('hidden');
+    }
+    if (state == "stop"){
+        loadingIcon.classList.add('hidden');
+    }
 }
 
 function showActionButton(){
@@ -141,7 +153,7 @@ function retakeTest(){
 /* 
 ** Functions used for handling, fetching and returning promises + data from Pokeapi
 ** https://pokeapi.co/
-** TODO: Handle errors better, clean up code. Show a loading process!
+** TODO: Handle errors better, clean up code.
 */ 
 
 function fetchCorrespondingDataFromApis(apis){

@@ -30,7 +30,25 @@ header{
 }
 
 
+#loading-img{
+    margin: 0 auto 0 auto;
+    height: 15px;
+    position: relative;
+    -webkit-animation: pokeball_bounce 1s infinite;
+    animation: pokeball_bounce 1s infinite;
+}
 
+@keyframes pokeball_bounce{
+    0%{top: 0px;} 
+    50%{top: 20px;}
+    100%{top: 0px;}
+}
+
+@-webkit-keyframes pokeball_bounce{
+    0%{top: 0px;} 
+    50%{top: 12px;}
+    100%{top: 0px;}
+}
 
 /* With a hidden class I can control with js-file
 which questions are shown at which point */
