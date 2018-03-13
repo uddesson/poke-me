@@ -104,6 +104,13 @@ function makeOptionsUnclickable(questionWrapper){
     }
 }
 
+function displayErrorMessage(){
+    const resultText = document.
+        createElement('p');
+    resultText.innerText = `Something went wrong. Refresh the page and try again!`;
+    resultTextWrapper.appendChild(resultText);
+}
+
 function showActionButton(){
     const button = document
         .createElement('input'); 
@@ -177,18 +184,19 @@ function fetchCorrespondingDataFromApis(apis){
             createElement('p');
             resultText.innerText = `Your spiritpokémon is ${spiritPokemon}.`;
             resultTextWrapper.appendChild(resultText);    
+        })
         .then((spiritPokemonData) => {
             showActionButton();
         })
+        .catch((spiritPokemonData) => {
+            console.error();
+            displayErrorMessage();
         });
     })
 
-    .catch(pokemonData => {
+    .catch((pokemonData) => {
         console.error();
-        const resultText = document.
-            createElement('p');
-        resultText.innerText = `Something went wrong.`;
-        resultTextWrapper.appendChild(resultText);
+        displayErrorMessage();
     });
 } 
 
