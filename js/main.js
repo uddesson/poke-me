@@ -128,6 +128,7 @@ function retakeTest(){
 /* 
 ** Functions used for handling, fetching and returning promises + data from Pokeapi
 ** https://pokeapi.co/
+** TODO: Handle errors better, clean up code. Show a loading process!
 */ 
 
 function fetchCorrespondingDataFromApis(apis){
@@ -154,6 +155,9 @@ function fetchCorrespondingDataFromApis(apis){
     */
     Promise.all([apiRequestShape,apiRequestColor,apiRequestHabitat])
     .then((pokemonData) => {
+        if (pokemonData.ok) {
+            return pokemonData.json()
+        }
     /* Since the pokemonData is an array of data from three url-requests, 
     I need to use an index to get to the different content */
     allRequests["apiRequestShape"] = pokemonData[0];
@@ -193,10 +197,31 @@ function fetchCorrespondingDataFromApis(apis){
             displayErrorMessage();
         });
     })
+        .then(spiritPokemonData => {
+            console.log(spiritPokemonData)
+            if (spiritPokemonData.ok) {
+                return spiritPokemonData.json();
+            }
 
     .catch((pokemonData) => {
         console.error();
         displayErrorMessage();
+            })
+            .then((spiritPokemonData) => { 
+                displayResults(spiritPokemonData);
+            })
+            .then((spiritPokemonData) => {
+                showActionButton();
+            })
+            .catch(function(error) {
+                console.log(error);
+                displayErrorMessage();
+            });
+            
+    })
+    .catch(function(error) {
+        console.log(error);
+        displayErrorMessage(error);
     });
 } 
 
