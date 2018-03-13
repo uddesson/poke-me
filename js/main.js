@@ -147,13 +147,13 @@ function retakeTest(){
 function fetchCorrespondingDataFromApis(apis){
     // Create variables for requesting all three api-urls with fetch()
     var apiRequestShape = fetch(`${apis.shapeUrl}`)
-    .then((response) => response.json());
+    .then((shapeResponse) => shapeResponse.json());
 
     var apiRequestColor = fetch(`${apis.colorUrl}`)
-    .then((response) => response.json());
+    .then((colorResponse) => colorResponse.json());
 
     var apiRequestHabitat = fetch(`${apis.habitatUrl}`)
-    .then((response) => response.json());
+    .then((habitatResponse) => habitatResponse.json());
 
     //These values should be set to the correct data and makes it easier to keep track of
     var allRequests = {
