@@ -88,7 +88,7 @@ function discardAndShowNext(questionWrapper){
     questionWrapper.classList.add('discarded');
 
     //Find the next question wrapper
-    const nextQuestionWrapper = questionWrapper.nextElementSibling.nextElementSibling;
+    const nextQuestionWrapper = questionWrapper.nextElementSibling;
     
     //Make it appear
     removeClassHidden(nextQuestionWrapper);
