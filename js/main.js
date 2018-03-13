@@ -111,6 +111,19 @@ function displayErrorMessage(){
     resultTextWrapper.appendChild(resultText);
 }
 
+function displayResults(spiritPokemonData){
+    const pokemonImage = document.
+    createElement('img');
+    pokemonImage.src = spiritPokemonData.sprites.front_default;
+    pokemonImage.alt = spiritPokemon;
+    resultImageWrapper.appendChild(pokemonImage);  
+
+    const resultText = document.
+    createElement('p');
+    resultText.innerText = `Your spiritpokémon is ${spiritPokemon}.`;
+    resultTextWrapper.appendChild(resultText);   
+}
+
 function showActionButton(){
     const button = document
         .createElement('input'); 
@@ -176,36 +189,10 @@ function fetchCorrespondingDataFromApis(apis){
     //Fetch and print some spiritpokemon-data
     .then(() => { 
         fetch(spiritPokemonUrl)
-        .then((spiritPokemonData) => spiritPokemonData.json())
-        .then((spiritPokemonData) => { 
-            const pokemonImage = document.
-            createElement('img');
-            pokemonImage.src = spiritPokemonData.sprites.front_default;
-            pokemonImage.alt = spiritPokemon;
-            resultImageWrapper.appendChild(pokemonImage);      
-
-            const resultText = document.
-            createElement('p');
-            resultText.innerText = `Your spiritpokémon is ${spiritPokemon}.`;
-            resultTextWrapper.appendChild(resultText);    
-        })
-        .then((spiritPokemonData) => {
-            showActionButton();
-        })
-        .catch((spiritPokemonData) => {
-            console.error();
-            displayErrorMessage();
-        });
-    })
         .then(spiritPokemonData => {
-            console.log(spiritPokemonData)
             if (spiritPokemonData.ok) {
                 return spiritPokemonData.json();
             }
-
-    .catch((pokemonData) => {
-        console.error();
-        displayErrorMessage();
             })
             .then((spiritPokemonData) => { 
                 displayResults(spiritPokemonData);
