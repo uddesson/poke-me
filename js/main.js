@@ -149,17 +149,16 @@ function fetchCorrespondingDataFromApis(apis){
         "apiRequestHabitat":{}
     };
     
-    /** Instead of reciving my promises one by one (would not have worked to compare the data) 
+    /* Instead of reciving my promises one by one (would not have worked to compare the data) 
     I use Promise.all which takes an array of promises (what I get from the three api-requests)
-    And then I can handle them all as the data is (hopefully) recived
-    */
+    And then I can handle them all as the data is (hopefully) recived */
     Promise.all([apiRequestShape,apiRequestColor,apiRequestHabitat])
     .then((pokemonData) => {
         if (pokemonData.ok) {
             return pokemonData.json()
         }
     /* Since the pokemonData is an array of data from three url-requests, 
-    I need to use an index to get to the different content */
+    I use an index to get to the different contents */
     allRequests["apiRequestShape"] = pokemonData[0];
 
     //I only want the list of names, so I store that data into a variable using my function
@@ -174,6 +173,7 @@ function fetchCorrespondingDataFromApis(apis){
     let spiritPokemonUrl = findMatchingPokemon(listOfPokemonWithShape, listOfPokemonWithColor,listOfPokemonWithHabitat);    
     })
 
+    //Fetch and print some spiritpokemon-data
     .then(() => { 
         fetch(spiritPokemonUrl)
         .then((spiritPokemonData) => spiritPokemonData.json())
@@ -219,6 +219,7 @@ function fetchCorrespondingDataFromApis(apis){
             });
             
     })
+    //Catch for Promise.all
     .catch(function(error) {
         console.log(error);
         displayErrorMessage(error);
@@ -251,13 +252,13 @@ function findMatchingPokemon(shape, color, habitat){
         }    
     });
 
-    // TODO: Maybe pick a random one?
     spiritPokemon = matchingPokemon[0]; 
     spiritPokemonUrl = `http://pokeapi.salestock.net/api/v2/pokemon/${spiritPokemon}/`;
     return spiritPokemonUrl;
 }
 
-
+/* Limiting options as you click your way through the test, 
+hiding options that wouldn't generate a matching pokémon */ 
 function limitColorOptionsBasedOn(shape){
     switch(shape){
         case "upright":
@@ -274,8 +275,6 @@ function limitColorOptionsBasedOn(shape){
     }
 }
 
-/* Limiting options as you click your way through the test, 
-hiding options that wouldn't generate a matching pokémon */ 
 function limitHabitatOptionsBasedOn(shape,color){
     switch (shape){
         case "upright":
