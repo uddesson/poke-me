@@ -44,7 +44,7 @@ function handleUsersActions(){
         case "pokemon-shape":
             usersPokemonAttributes.shape = pickedAttribute; 
             apis.shapeUrl = url;
-            discardAndShowNext(questionWrapper);
+            discardAndShowNext(questionWrapper, pickedAttribute);
             limitColorOptionsBasedOn(usersPokemonAttributes.shape);
             makeOptionsUnclickable(questionWrapper); 
             console.log(usersPokemonAttributes); //Testing
@@ -53,7 +53,7 @@ function handleUsersActions(){
         case "pokemon-color":
             usersPokemonAttributes.color = pickedAttribute;
             apis.colorUrl = url;
-            discardAndShowNext(questionWrapper);
+            discardAndShowNext(questionWrapper, pickedAttribute);
             limitHabitatOptionsBasedOn(usersPokemonAttributes.shape, usersPokemonAttributes.color);
             makeOptionsUnclickable(questionWrapper);
             console.log(usersPokemonAttributes); //Testing
@@ -62,6 +62,8 @@ function handleUsersActions(){
         case "pokemon-habitat": 
             usersPokemonAttributes.habitat = pickedAttribute;
             apis.habitatUrl = url;
+            discardAndShowNext(questionWrapper, pickedAttribute);
+
             //Send my requests to the fetch-funcitons and return a spirit pokémon
             spiritPokemon = fetchCorrespondingDataFromApis(apis);
             makeOptionsUnclickable(questionWrapper);
@@ -85,15 +87,30 @@ function removeClassHidden(element){
 }
 
 //Will help let the user know which question to answer
-function discardAndShowNext(questionWrapper){    
+function discardAndShowNext(questionWrapper, pickedOption){    
     //Style the answered question-wrappers so the user won't click them again (.. and they can't)
-    questionWrapper.classList.add('discarded');
+    questionWrapper.classList.add('unclickable');
+    
+    var option = questionWrapper.children;
+    var range = questionWrapper.children.length;
+
+    //Check which option was clicked and give it additional styling
+    for (var i = 0; i < range; i++){
+
+        if(option[i].id == pickedOption)
+        {
+            option[i].classList.add('picked-option');
+        }
+    }
 
     //Find the next question wrapper
     const nextQuestionWrapper = questionWrapper.nextElementSibling;
-    
-    //Make it appear
-    removeClassHidden(nextQuestionWrapper);
+    if (nextQuestionWrapper == undefined){
+        //Do nothing
+    }
+    else{
+        removeClassHidden(nextQuestionWrapper); //Make it appear
+    }
 };
 
 function makeOptionsUnclickable(questionWrapper){
