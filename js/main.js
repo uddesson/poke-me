@@ -225,6 +225,8 @@ function limitColorOptionsBasedOn(shape){
     }
 }
 
+/* Limiting options as you click your way through the test, 
+hiding options that wouldn't generate a matching pokémon */ 
 function limitHabitatOptionsBasedOn(shape,color){
     switch (shape){
         case "upright":
@@ -269,22 +271,25 @@ function limitHabitatOptionsBasedOn(shape,color){
     }
 }
 
-function excludeFromOptions(allOptions, a, b){
-    for(var i = 0; i < allOptions.length; i++){
-        
+// Controls which options stay hidden from current options
+function excludeFromOptions(currentOptions, a, b){
+    for(var i = 0; i < currentOptions.length; i++){
+
+        //Only the value a should stay hidden
         if (a != undefined && b == undefined){
-            if(allOptions[i].id != a){
-            removeClassHidden(allOptions[i]);
+            if(currentOptions[i].id != a){
+            removeClassHidden(currentOptions[i]);
             }
         }
+        //Both a and b should stay hidden
         if (b != undefined){
-            if(allOptions[i].id != a && allOptions[i].id != b){
-                removeClassHidden(allOptions[i]);
-            }
-            
+            if(currentOptions[i].id != a && currentOptions[i].id != b){
+                removeClassHidden(currentOptions[i]);
+            }            
         }
+        //Neither is defined, so all options should be displayed
         else if(a == undefined && b == undefined){
-            removeClassHidden(allOptions[i]);
+            removeClassHidden(currentOptions[i]);
         }
     }
 }
