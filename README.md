@@ -3,7 +3,9 @@
 By Emma Uddesson.
 
 ## Description
-A highly accurate test that will show you which Pokémon is your _spiritpokémon_. Try it yourself at [pokeme.uddesson.se](http://pokeme.uddesson.se/). Oh, and the way I'm pronouncing the name in my head is "Poké-me". Like, Pokémon + me. Get it? Nevermind.
+A highly accurate test that will show you which Pokémon is your _spiritpokémon_. Try it yourself at [pokeme.uddesson.se](http://pokeme.uddesson.se/). 
+
+Oh, and the way I'm pronouncing the name in my head is "Poké-me". Like, Pokémon + me. Get it? ~~Nevermind.~~
 
 ## Resources
 I've used the [Pokéapi v2](https://pokeapi.co/), which provides a great open database filled with thousands of Pokémon-related facts and objects.
