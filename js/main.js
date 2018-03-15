@@ -1,4 +1,4 @@
-// Fetch elements from the DOM
+// Fetch elements I need from the DOM
 const optionBox = document.getElementsByClassName("option-box");
 const resultWrapper = document.getElementById("result-wrapper");
 const loadingIcon = document.getElementById("loading-icon");
@@ -9,39 +9,47 @@ const retakeTestWrapper = document.getElementById("retake-test");
 const allShapeOptions = [optionBox.upright, optionBox.quadruped, optionBox.wings];
 const allColorOptions = [optionBox.green, optionBox.red, optionBox.yellow, optionBox.blue];
 const allHabitatOptions = [optionBox.mountain, optionBox.forest, optionBox.grassland, optionBox[10]];
-/* optionBox[10] is "waters-edge", but because of the "-" that can"t be used for the value this way,
-so I use the number 10 from the HTML-collection to identify it */
+/* optionBox[10] is "waters-edge", but because of the "-" that can"t be used in a value this way,
+I use the number 10 from the HTML-collection to identify it */
 
 //An eventlistener is added to each option
 makeOptionsClickable(optionBox);
 
-// As the user picks their attributes, the values will be set
+//As the user picks their attributes, values will be set
 const usersPokemonAttributes = {
     shape: "",
     color: "",
     habitat: ""
 }
 
-// These values will in turn be generated from the picked attributes
+//These values will in turn be generated from the picked attributes
 let apis = {
     shapeUrl: "",
     colorUrl: "",
     habitatUrl: ""
 }
 
-// This will be our spiritpokémon - the result!
+//This will be our spiritpokémon - the result!
 let spiritPokemon = undefined;
+
+
+function makeOptionsClickable(optionBox){
+    for (var i = 0; i < optionBox.length; i++){
+        optionBox[i].addEventListener("click", handleUsersActions);
+    }
+}
 
 function handleUsersActions(){
     let questionWrapper = this.parentElement;
     let attributeCategory = this.parentElement.id;
     let pickedAttribute = this.id;
-    let url = `http://pokeapi.salestock.net/api/v2/${attributeCategory}/${pickedAttribute}/`;
-    
+    let url = `https://cors-anywhere.herokuapp.com/http://pokeapi.co/api/v2`;
+    let path = `${url}/${attributeCategory}/${pickedAttribute}/`;
+
     switch(attributeCategory){
         case "pokemon-shape":
             usersPokemonAttributes.shape = pickedAttribute;
-            apis.shapeUrl = url;
+            apis.shapeUrl = path;
             discardAndShowNext(questionWrapper, pickedAttribute);
             limitColorOptionsBasedOn(usersPokemonAttributes.shape);
             makeOptionsUnclickable(questionWrapper);
@@ -49,7 +57,7 @@ function handleUsersActions(){
 
         case "pokemon-color":
             usersPokemonAttributes.color = pickedAttribute;
-            apis.colorUrl = url;
+            apis.colorUrl = path;
             discardAndShowNext(questionWrapper, pickedAttribute);
             limitHabitatOptionsBasedOn(usersPokemonAttributes.shape, usersPokemonAttributes.color);
             makeOptionsUnclickable(questionWrapper);
@@ -57,19 +65,18 @@ function handleUsersActions(){
 
         case "pokemon-habitat": 
             usersPokemonAttributes.habitat = pickedAttribute;
-            apis.habitatUrl = url;
+            apis.habitatUrl = path;
             discardAndShowNext(questionWrapper, pickedAttribute);
-
             //Send my requests to the fetch-funcitons and return a spirit pokémon
             spiritPokemon = fetchCorrespondingDataFromApis(apis);
             makeOptionsUnclickable(questionWrapper);
-            loading("run");
+            loadingProgress("show");
             break;
     }
 }
 
 /** 
- * Functions controlling styling and main output to user:
+ * Functions controlling styling and output to user:
  */
 
 function removeClassHidden(element){
@@ -78,7 +85,7 @@ function removeClassHidden(element){
 
 //Will help let the user know which question to answer
 function discardAndShowNext(questionWrapper, pickedOption){
-    //Style the answered question-wrappers so the user won"t click them again (.. and they can"t)
+    //Style the answered question-wrappers so the user won"t click them again (.. they can't)
     questionWrapper.classList.add("unclickable");
     
     var option = questionWrapper.children;
@@ -86,9 +93,7 @@ function discardAndShowNext(questionWrapper, pickedOption){
 
     //Check which option was clicked and give it additional styling
     for (var i = 0; i < range; i++){
-
-        if(option[i].id == pickedOption)
-        {
+        if(option[i].id == pickedOption){
             option[i].classList.add("picked-option");
         }
     }
@@ -116,9 +121,10 @@ function makeOptionsUnclickable(questionWrapper){
 function displayErrorMessageToUser(){
     const resultText = document.
         createElement("h3");
-    resultText.innerHTML = `<span class="highlighted-result">Oh no, something went wrong :'(</span>
-         </br> Try refreshing the page!`;
-    loading("stop"); //Stop the loading icon from bouncing
+    resultText.innerHTML = `<span class="highlighted-result">
+        Oh no, something went wrong :'( </span>
+        </br> Try refreshing the page!`;
+    loadingProgress("hide"); 
     resultTextWrapper.appendChild(resultText);
     
     const errorImg = document.
@@ -131,8 +137,10 @@ function displayErrorMessageToUser(){
 
 function displayResults(spiritPokemonData){
     const pokemonImage = document.
-    createElement('img');
-    pokemonImage.onload = function(){loading("stop")};
+        createElement("img");
+    /* Hide loading icon when this image is loaded, 
+    since it's the last thing that is fetched */
+    pokemonImage.onload = function(){loadingProgress("hide")}; 
     pokemonImage.src = spiritPokemonData.sprites.front_default;
     pokemonImage.alt = spiritPokemon;
     pokemonImage.id = "result-img";
@@ -145,11 +153,11 @@ function displayResults(spiritPokemonData){
     resultTextWrapper.appendChild(resultText);
 }
 
-function loading(state){
-    if (state == "run"){ 
+function loadingProgress(state){
+    if (state == "show"){ 
         loadingIcon.classList.remove("hidden");
     }
-    if (state == "stop"){
+    if (state == "hide"){
         loadingIcon.classList.add("hidden");
     }
 }
@@ -160,15 +168,16 @@ function showActionButton(){
     button.type = "submit";
     button.value = "Retake test";
     button.id = "btn";
+    button.addEventListener("click", refreshPage);
     retakeTestWrapper.appendChild(button);
 }
 
-function retakeTest(){
+function refreshPage(){
     window.location.reload();
 }
 
 /* 
-** Functions used for handling, fetching and returning promises + data from Pokeapi
+** Functions used for handling, fetching and returning promises + data from Pokeapi:
 */
 
 function fetchCorrespondingDataFromApis(apis){
@@ -190,12 +199,11 @@ function fetchCorrespondingDataFromApis(apis){
     };
     
     /* Instead of reciving my promises one by one (would not have worked to compare the data) 
-    I use Promise.all which takes an array of promises (what I get from the three api-requests)
-    And then I can handle them all as the data is (hopefully) recived */
+    I use Promise.all and then I can handle them all as the data is (hopefully) recived */
     Promise.all([apiRequestShape,apiRequestColor,apiRequestHabitat])
     .then((pokemonData) => {
-        if (pokemonData.ok) {
-            return pokemonData.json() //Then return and do stuff with the pokemonData
+        if (pokemonData.ok) { //Check the state of the promise
+            return pokemonData.json() //Return and do stuff with the pokemonData
         }
 
     /* Since the pokemonData is an array of data from three url-requests, 
@@ -209,18 +217,20 @@ function fetchCorrespondingDataFromApis(apis){
     allRequests["apiRequestHabitat"] = pokemonData[2];
     let listOfPokemonWithHabitat = getPokemonNamesFromArray(pokemonData[2].pokemon_species);
 
-    let spiritPokemonUrl = findMatchingPokemon(listOfPokemonWithShape, listOfPokemonWithColor,listOfPokemonWithHabitat);    
+    /* The return value here should include our spiritpokemon 
+    and a path for fetching specific spiritpokemon-data */
+    let spiritPokemonPath = findMatchingPokemon(listOfPokemonWithShape, listOfPokemonWithColor,listOfPokemonWithHabitat);    
     })
 
-    //Fetch and print some spiritpokemon-data
+    //Fetch and print some spiritpokemon-data!
     .then(() => { 
-        fetch(spiritPokemonUrl)
+        fetch(spiritPokemonPath)
         .then(spiritPokemonData => {
             if (spiritPokemonData.ok){
                 return spiritPokemonData.json();
             }
             })
-            .then((spiritPokemonData) => { 
+            .then((spiritPokemonData) => {
                 displayResults(spiritPokemonData);
             })
             .then((spiritPokemonData) => {
@@ -229,8 +239,8 @@ function fetchCorrespondingDataFromApis(apis){
             .catch(error => {
                 displayErrorMessageToUser();
             });
-            
     })
+
     //Catch for Promise.all
     .catch(error => {
         displayErrorMessageToUser();
@@ -248,7 +258,7 @@ function getPokemonNamesFromArray(arrayWithPokemonData){
 }
 
 function findMatchingPokemon(shape, color, habitat){
-    let matchingPokemon = []; //Will be the list of matching names
+    let matchingPokemon = [];
     
     /* Filtering out all names (strings in array) that will pass 
     through the following if statements */
@@ -264,11 +274,12 @@ function findMatchingPokemon(shape, color, habitat){
     });
 
     spiritPokemon = matchingPokemon[0];
-    spiritPokemonUrl = `http://pokeapi.salestock.net/api/v2/pokemon/${spiritPokemon}/`;
-    return spiritPokemonUrl;
+    spiritPokemonUrl = `https://cors-anywhere.herokuapp.com/http://pokeapi.co/api/v2/pokemon`;
+    spiritPokemonPath = `${spiritPokemonUrl}/${spiritPokemon}/`;
+    return spiritPokemonPath;
 }
 
-// Hiding options that won't generate a matching pokémon 
+//Hiding options that won't generate a matching pokémon 
 function limitColorOptionsBasedOn(shape){
     switch(shape){
         case "upright":

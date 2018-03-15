@@ -17,60 +17,110 @@
     <main>
         <!-- This first set of options should be the only one visible at start/reload -->
         <div class="question-wrapper" id="pokemon-shape">
-        <div class="question"><h2>What animal do you identify with?</h2></div>
+            <div class="question">
+                <h2>What animal do you identify with?</h2>
+            </div>
             <div class="option-box" id="upright">
-                <div class="option-image"><a href="#pokemon-color"><img src="images/upright.jpg" alt="Sitting meerkat"></a></div>
-                <div class="option-text">Chillin' meerkat</div>
+                <div class="option-image">
+                    <a href="#pokemon-color">
+                        <img src="images/upright.jpg" alt="Sitting meerkat">
+                    </a>
+                </div>
+            <div class="option-text">Chillin' meerkat</div>
             </div>
             <div class="option-box" id="quadruped">
-                    <div class="option-image"><a href="#pokemon-color"><img src="images/quadruped.jpg" alt="A dog"></a></div>
-                    <div class="option-text">Cool dog</div>
+                <div class="option-image">
+                    <a href="#pokemon-color">
+                        <img src="images/quadruped.jpg" alt="A dog">
+                    </a>
+                </div>
+                <div class="option-text">Cool dog</div>
             </div>
             <div class="option-box" id="wings">
-                <div class="option-image"><a href="#pokemon-color"><img src="images/wings.jpg" alt="Owl looking grumpy"></a></div>
+                <div class="option-image">
+                    <a href="#pokemon-color">
+                        <img src="images/wings.jpg" alt="Owl looking grumpy">
+                    </a>
+                </div>
                 <div class="option-text">Boss owl</div>
             </div>
-        </div> <!-- ./question-wrapper (1) -->
+        </div> <!-- ./question-wrapper (pokemon-shape) -->
 
         <div class="question-wrapper hidden" id="pokemon-color">
-            <div class="question"><h2>Which of these colors do you like the most?</h2></div>
+            <div class="question">
+                <h2>Which of these colors do you like the most?</h2>
+            </div>
             <div class="option-box hidden" id="green">
-                <div class="option-image"><a href="#pokemon-habitat"><img src="images/green.jpg" alt="Testimage"></a></div>
+                <div class="option-image">
+                    <a href="#pokemon-habitat">
+                        <img src="images/green.jpg" alt="Testimage">
+                    </a>
+                </div>
                 <div class="option-text">Jade green</div>
             </div>
             <div class="option-box hidden" id="red">
-                    <div class="option-image"><a href="#pokemon-habitat"><img src="images/red.jpg" alt="Testimage"></a></div>
-                    <div class="option-text">Sunset red</div>
+                <div class="option-image">
+                    <a href="#pokemon-habitat">
+                        <img src="images/red.jpg" alt="Testimage">
+                    </a>
+                </div>
+                <div class="option-text">Sunset red</div>
             </div>
             <div class="option-box hidden" id="yellow">
-                <div class="option-image"><a href="#pokemon-habitat"><img src="images/yellow.jpg" alt="Testimage"></a></div>
+                <div class="option-image">
+                    <a href="#pokemon-habitat">
+                        <img src="images/yellow.jpg" alt="Testimage">
+                    </a>
+                </div>
                 <div class="option-text">Sandstorm yellow</div>
             </div>
             <div class="option-box hidden" id="blue">
-                <div class="option-image"><a href="#pokemon-habitat"><img src="images/blue.jpg" alt="Testimage"></a></div>
+                <div class="option-image">
+                    <a href="#pokemon-habitat">
+                        <img src="images/blue.jpg" alt="Testimage">
+                    </a>
+                </div>
                 <div class="option-text">Shakespeare Blue</div>
             </div>
-        </div> <!-- ./question-wrapper (2) -->
+        </div> <!-- ./question-wrapper (color) -->
 
         <div class="question-wrapper hidden" id="pokemon-habitat">
-            <div class="question"><h2>Which Mario64-course you would prefer to live in?</h2></div>
+            <div class="question">
+                <h2>Which of these Super Mario64-courses you would prefer to live in?</h2>
+            </div>
             <div class="option-box hidden" id="mountain">
-                <div class="option-image"><a href="#result-wrapper"><img src="images/tall-tall-mountain.jpg" alt="Tall mountain  Mario course"></a></div>
+                <div class="option-image">
+                    <a href="#result-wrapper">
+                        <img src="images/tall-tall-mountain.jpg" alt="Tall mountain  Super Mario course">
+                    </a>
+                </div>
                 <div class="option-text">Tall Tall Mountain</div>
             </div>
             <div class="option-box hidden" id="forest">
-                <div class="option-image"><a href="#result-wrapper"><img src="images/bob-omb-battlefield.png" alt="Bob-omb battlefield Mario course"></a></div>
+                <div class="option-image">
+                    <a href="#result-wrapper">
+                        <img src="images/bob-omb-battlefield.png" alt="Bob-omb battlefield Super Mario course">
+                    </a>
+                </div>
                 <div class="option-text">Bob-omb Battlefield</div>
             </div>
             <div class="option-box hidden" id="grassland">
-                <div class="option-image"><a href="#result-wrapper"><img src="images/tiny-huge-island.jpg" alt="Tiny huge island Mario course"></a></div>
+                <div class="option-image">
+                    <a href="#result-wrapper">
+                        <img src="images/tiny-huge-island.jpg" alt="Tiny huge island Super Mario course">
+                    </a>
+                </div>
                 <div class="option-text">Tiny Huge Island</div>
             </div>
             <div class="option-box hidden" id="waters-edge">
-                <div class="option-image"><a href="#result-wrapper"><img src="images/jolly-roger-bay.jpg" alt="Jolly roger bay Mario course"></a></div>
+                <div class="option-image">
+                    <a href="#result-wrapper">
+                        <img src="images/jolly-roger-bay.jpg" alt="Jolly roger bay Super Mario course">
+                    </a>
+                </div>
                 <div class="option-text">Jolly Roger Bay</div>
             </div>
-        </div> <!-- ./question-wrapper (3) -->
+        </div> <!-- ./question-wrapper (habitat) -->
 
         <div id="result-wrapper" class="hidden">
             <div id="result-text-wrapper">
@@ -81,10 +131,10 @@
                     <h3>Something is emerging ... </h3>
                     <img src="images/pokeball.png" id="loading-img" alt="Bouncing pokéball shows while loading results">
                 </div>
-            <!-- Generate result-->
+            <!-- Generate result image here-->
             </div>
             <div id="retake-test">
-                <!--Button is generated here at the end of test -->
+            <!-- Generated in main.js -->
             </div>
         </div>
     </main>
