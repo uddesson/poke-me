@@ -12,10 +12,8 @@ const allHabitatOptions = [optionBox.mountain, optionBox.forest, optionBox.grass
 /* optionBox[10] is "waters-edge", but because of the "-" that can"t be used for the value this way,
 so I use the number 10 from the HTML-collection to identify it */
 
-// I want the option-boxes to be the thing the user clicks to move forward
-for (var i = 0; i < optionBox.length; i++){
-    optionBox[i].addEventListener("click", handleUsersActions);
-}
+//An eventlistener is added to each option
+makeOptionsClickable(optionBox);
 
 // As the user picks their attributes, the values will be set
 const usersPokemonAttributes = {
