@@ -141,9 +141,10 @@ function displayResults(spiritPokemonData){
     resultImageWrapper.appendChild(pokemonImage);
 
     const resultText = document.
-    createElement('p');
-    resultText.innerText = `Your spiritpokémon is ${spiritPokemon}.`;
-    resultTextWrapper.appendChild(resultText);   
+    createElement("h3");
+    resultText.innerHTML = `Your spiritpokémon is 
+        </br><span class="highlighted-result pokemon-name">${spiritPokemon}</span>`;
+    resultTextWrapper.appendChild(resultText);
 }
 
 function loading(state){
@@ -159,9 +160,8 @@ function showActionButton(){
     const button = document
         .createElement("input");
     button.type = "submit";
-    button.value = "Retake";
-    button.id = "retake-test-btn";
-    button.addEventListener('click', retakeTest); 
+    button.value = "Retake test";
+    button.id = "btn";
     retakeTestWrapper.appendChild(button);
 }
 
