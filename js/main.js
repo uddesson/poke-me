@@ -119,7 +119,7 @@ function displayErrorMessageToUser(){
     const resultText = document.
         createElement("h3");
     resultText.innerHTML = `<span class="highlighted-result">Oh no, something went wrong :'(</span>
-         </br> Try refreshing the page! </br> ${error}`;
+         </br> Try refreshing the page!`;
     loading("stop"); //Stop the loading icon from bouncing
     resultTextWrapper.appendChild(resultText);
     
