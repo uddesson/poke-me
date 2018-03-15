@@ -1,3 +1,13 @@
+header{
+    margin-bottom: 80px;
+}
+
 .option-box{
-    width: 30%;
+    margin: 5px 10px 20px 10px;
+    flex: 1 20%;
+}
+
+.question{
+    flex: 0 1 100%;
+    margin-bottom: 10px;
 }
