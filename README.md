@@ -16,4 +16,7 @@ After previously having practiced to fetch information from open API:s with an i
 
 ###### TODO
 * Present more facts about the spiritpokémon, maybe a desciption, some stats etc.
+* Find ways of optimizing the fetching, to make the results appear to load faster.
+* Remove anchorlinks as the questionwrapper is 'discarded'. Or replace them entierly. 
 * Make some sort of smooth transition for when the result is presented and the loading icon disappears. Same thing with the anchor links. It's kinda rough without any scroll effect.
+* Maybe add a footer and improve the styling.
