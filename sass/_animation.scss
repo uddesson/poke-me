@@ -1,0 +1,11 @@
+@keyframes pokeball_bounce{
+    0%{top: 0px;} 
+    50%{top: 20px;}
+    100%{top: 0px;}
+}
+
+@-webkit-keyframes pokeball_bounce{
+    0%{top: 0px;} 
+    50%{top: 12px;}
+    100%{top: 0px;}
+}

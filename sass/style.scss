@@ -1,65 +1,12 @@
-header{
-    margin: 0 auto 0 auto;
-    text-align: center;
-    width: 70vw;
+@import "_animation";
+@import "_mobile.scss";
+
+//Small tablet ->
+@media screen and (min-width: 668px){
+    @import "_tablet.scss";
 }
 
-.question-wrapper{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    margin: 0 auto 0 auto;
-    width: 50vw;
-    border: 1px solid palevioletred;
-}
-
-.option-box{
-    margin: 0 auto 0 auto;
-    flex-grow: 1;
-    border: 1px solid greenyellow;
-}
-
-.option-image{
-    flex-grow: 2;
-    margin-bottom: 10px;
-
-    img{
-        width: 300px;
-        height: auto;
-    }
-}
-
-
-#loading-img{
-    margin: 0 auto 0 auto;
-    height: 15px;
-    position: relative;
-    -webkit-animation: pokeball_bounce 1s infinite;
-    animation: pokeball_bounce 1s infinite;
-}
-
-@keyframes pokeball_bounce{
-    0%{top: 0px;} 
-    50%{top: 20px;}
-    100%{top: 0px;}
-}
-
-@-webkit-keyframes pokeball_bounce{
-    0%{top: 0px;} 
-    50%{top: 12px;}
-    100%{top: 0px;}
-}
-
-/* Classes applied in js-file, 
-that guides the user troughout the test */
-.hidden{
-    display: none;
-}
-
-.unclickable{
-    opacity: 0.6;
-}
-
-.picked-option{
-    border: 2px dashed seagreen;
+//Desktop ->
+@media screen and (min-width: 992px){
+    @import "_desktop.scss";
 }
