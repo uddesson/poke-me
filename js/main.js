@@ -115,10 +115,20 @@ function makeOptionsUnclickable(questionWrapper){
     }
 }
 
+function displayErrorMessageToUser(){
     const resultText = document.
-        createElement('p');
-    resultText.innerText = `Something went wrong. Refresh the page and try again!`;
+        createElement("h3");
+    resultText.innerHTML = `<span class="highlighted-result">Oh no, something went wrong :'(</span>
+         </br> Try refreshing the page! </br> ${error}`;
+    loading("stop"); //Stop the loading icon from bouncing
     resultTextWrapper.appendChild(resultText);
+    
+    const errorImg = document.
+        createElement("img");
+    errorImg.src = "images/sadpikachu.gif";
+    errorImg.alt = "Sad pikachu";
+    errorImg.id = "error-img";
+    resultImageWrapper.appendChild(errorImg);
 }
 
 function displayResults(spiritPokemonData){
@@ -208,7 +218,7 @@ function fetchCorrespondingDataFromApis(apis){
     .then(() => { 
         fetch(spiritPokemonUrl)
         .then(spiritPokemonData => {
-            if (spiritPokemonData.ok) {
+            if (spiritPokemonData.ok){
                 return spiritPokemonData.json();
             }
             })
@@ -218,16 +228,14 @@ function fetchCorrespondingDataFromApis(apis){
             .then((spiritPokemonData) => {
                 showActionButton();
             })
-            .catch(function(error) {
-                console.log(error);
-                displayErrorMessage();
+            .catch(error => {
+                displayErrorMessageToUser();
             });
             
     })
     //Catch for Promise.all
-    .catch(function(error) {
-        console.log(error);
-        displayErrorMessage(error);
+    .catch(error => {
+        displayErrorMessageToUser();
     });
 } 
 
