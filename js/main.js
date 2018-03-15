@@ -1,53 +1,52 @@
 // Fetch elements from the DOM
-const optionBox = document.getElementsByClassName('option-box');
-const resultWrapper = document.getElementById('result-wrapper');
-const loadingIcon = document.getElementById('loading-icon');
-const resultImageWrapper = document.getElementById('result-image-wrapper');
-const resultTextWrapper = document.getElementById('result-text-wrapper');
-const retakeTestWrapper = document.getElementById('retake-test');
+const optionBox = document.getElementsByClassName("option-box");
+const resultWrapper = document.getElementById("result-wrapper");
+const loadingIcon = document.getElementById("loading-icon");
+const resultImageWrapper = document.getElementById("result-image-wrapper");
+const resultTextWrapper = document.getElementById("result-text-wrapper");
+const retakeTestWrapper = document.getElementById("retake-test");
 
 const allShapeOptions = [optionBox.upright, optionBox.quadruped, optionBox.wings];
 const allColorOptions = [optionBox.green, optionBox.red, optionBox.yellow, optionBox.blue];
-const allHabitatOptions = [optionBox.mountain, optionBox.forest, optionBox.grassland, optionBox[10]]; 
-/* optionBox[10] is "waters-edge", but because of the "-" that can't be used for the value this way,
+const allHabitatOptions = [optionBox.mountain, optionBox.forest, optionBox.grassland, optionBox[10]];
+/* optionBox[10] is "waters-edge", but because of the "-" that can"t be used for the value this way,
 so I use the number 10 from the HTML-collection to identify it */
 
 // I want the option-boxes to be the thing the user clicks to move forward
 for (var i = 0; i < optionBox.length; i++){
-    optionBox[i].addEventListener('click', handleUsersActions);
+    optionBox[i].addEventListener("click", handleUsersActions);
 }
 
 // As the user picks their attributes, the values will be set
 const usersPokemonAttributes = {
-    shape: '',
-    color: '',
-    habitat: ''
+    shape: "",
+    color: "",
+    habitat: ""
 }
 
 // These values will in turn be generated from the picked attributes
 let apis = {
-    shapeUrl: '',
-    colorUrl: '',
-    habitatUrl: ''
+    shapeUrl: "",
+    colorUrl: "",
+    habitatUrl: ""
 }
 
 // This will be our spiritpokémon - the result!
 let spiritPokemon = undefined;
 
 function handleUsersActions(){
-    let questionWrapper = this.parentElement; 
+    let questionWrapper = this.parentElement;
     let attributeCategory = this.parentElement.id;
     let pickedAttribute = this.id;
     let url = `http://pokeapi.salestock.net/api/v2/${attributeCategory}/${pickedAttribute}/`;
     
     switch(attributeCategory){
         case "pokemon-shape":
-            usersPokemonAttributes.shape = pickedAttribute; 
+            usersPokemonAttributes.shape = pickedAttribute;
             apis.shapeUrl = url;
             discardAndShowNext(questionWrapper, pickedAttribute);
             limitColorOptionsBasedOn(usersPokemonAttributes.shape);
-            makeOptionsUnclickable(questionWrapper); 
-            console.log(usersPokemonAttributes); //Testing
+            makeOptionsUnclickable(questionWrapper);
             break;
 
         case "pokemon-color":
@@ -56,7 +55,6 @@ function handleUsersActions(){
             discardAndShowNext(questionWrapper, pickedAttribute);
             limitHabitatOptionsBasedOn(usersPokemonAttributes.shape, usersPokemonAttributes.color);
             makeOptionsUnclickable(questionWrapper);
-            console.log(usersPokemonAttributes); //Testing
             break;
 
         case "pokemon-habitat": 
@@ -67,29 +65,23 @@ function handleUsersActions(){
             //Send my requests to the fetch-funcitons and return a spirit pokémon
             spiritPokemon = fetchCorrespondingDataFromApis(apis);
             makeOptionsUnclickable(questionWrapper);
-
-            console.log(usersPokemonAttributes); //Testing
             loading("run");
-            break;
-
-        default: 
-            console.log("Switch default-message"); //Testing
             break;
     }
 }
 
-/* 
-** Functions controlling styling and main output to user: 
-*/ 
+/** 
+ * Functions controlling styling and main output to user:
+ */
 
 function removeClassHidden(element){
-    element.classList.remove('hidden');
+    element.classList.remove("hidden");
 }
 
 //Will help let the user know which question to answer
-function discardAndShowNext(questionWrapper, pickedOption){    
-    //Style the answered question-wrappers so the user won't click them again (.. and they can't)
-    questionWrapper.classList.add('unclickable');
+function discardAndShowNext(questionWrapper, pickedOption){
+    //Style the answered question-wrappers so the user won"t click them again (.. and they can"t)
+    questionWrapper.classList.add("unclickable");
     
     var option = questionWrapper.children;
     var range = questionWrapper.children.length;
@@ -99,7 +91,7 @@ function discardAndShowNext(questionWrapper, pickedOption){
 
         if(option[i].id == pickedOption)
         {
-            option[i].classList.add('picked-option');
+            option[i].classList.add("picked-option");
         }
     }
 
@@ -109,7 +101,7 @@ function discardAndShowNext(questionWrapper, pickedOption){
         //Do nothing
     }
     else{
-        removeClassHidden(nextQuestionWrapper); //Make it appear
+        removeClassHidden(nextQuestionWrapper);//Make it appear
     }
 };
 
@@ -119,11 +111,10 @@ function makeOptionsUnclickable(questionWrapper){
     /* Remove all eventlisteners from option-boxes within this current questionwrapper.
     This function is called after they have been clicked */ 
     for (i = 0; i < range; i++){
-        questionWrapper.children[i].removeEventListener('click', handleUsersActions);
+        questionWrapper.children[i].removeEventListener("click", handleUsersActions);
     }
 }
 
-function displayErrorMessage(){
     const resultText = document.
         createElement('p');
     resultText.innerText = `Something went wrong. Refresh the page and try again!`;
@@ -136,7 +127,8 @@ function displayResults(spiritPokemonData){
     pokemonImage.onload = function(){loading("stop")};
     pokemonImage.src = spiritPokemonData.sprites.front_default;
     pokemonImage.alt = spiritPokemon;
-    resultImageWrapper.appendChild(pokemonImage);  
+    pokemonImage.id = "result-img";
+    resultImageWrapper.appendChild(pokemonImage);
 
     const resultText = document.
     createElement('p');
@@ -146,16 +138,16 @@ function displayResults(spiritPokemonData){
 
 function loading(state){
     if (state == "run"){ 
-        loadingIcon.classList.remove('hidden');
+        loadingIcon.classList.remove("hidden");
     }
     if (state == "stop"){
-        loadingIcon.classList.add('hidden');
+        loadingIcon.classList.add("hidden");
     }
 }
 
 function showActionButton(){
     const button = document
-        .createElement('input'); 
+        .createElement("input");
     button.type = "submit";
     button.value = "Retake";
     button.id = "retake-test-btn";
@@ -169,9 +161,7 @@ function retakeTest(){
 
 /* 
 ** Functions used for handling, fetching and returning promises + data from Pokeapi
-** https://pokeapi.co/
-** TODO: Handle errors better, clean up code.
-*/ 
+*/
 
 function fetchCorrespondingDataFromApis(apis){
     // Create variables for requesting all three api-urls with fetch()
@@ -197,13 +187,12 @@ function fetchCorrespondingDataFromApis(apis){
     Promise.all([apiRequestShape,apiRequestColor,apiRequestHabitat])
     .then((pokemonData) => {
         if (pokemonData.ok) {
-            return pokemonData.json()
+            return pokemonData.json() //Then return and do stuff with the pokemonData
         }
+
     /* Since the pokemonData is an array of data from three url-requests, 
     I use an index to get to the different contents */
     allRequests["apiRequestShape"] = pokemonData[0];
-
-    //I only want the list of names, so I store that data into a variable using my function
     let listOfPokemonWithShape = getPokemonNamesFromArray(pokemonData[0].pokemon_species);
     
     allRequests["apiRequestColor"] = pokemonData[1];
@@ -268,13 +257,12 @@ function findMatchingPokemon(shape, color, habitat){
         }    
     });
 
-    spiritPokemon = matchingPokemon[0]; 
+    spiritPokemon = matchingPokemon[0];
     spiritPokemonUrl = `http://pokeapi.salestock.net/api/v2/pokemon/${spiritPokemon}/`;
     return spiritPokemonUrl;
 }
 
-/* Limiting options as you click your way through the test, 
-hiding options that wouldn't generate a matching pokémon */ 
+// Hiding options that won't generate a matching pokémon 
 function limitColorOptionsBasedOn(shape){
     switch(shape){
         case "upright":
@@ -291,7 +279,7 @@ function limitColorOptionsBasedOn(shape){
     }
 }
 
-function limitHabitatOptionsBasedOn(shape,color){
+function limitHabitatOptionsBasedOn(shape, color){
     switch (shape){
         case "upright":
             if(color == "green"){
@@ -327,10 +315,6 @@ function limitHabitatOptionsBasedOn(shape,color){
             else if(color == "blue"){
                 excludeFromOptions(allHabitatOptions, "mountain");
             }
-        break;
-
-        default: 
-        console.log("Switch default-message"); //Testing
         break;
     }
 }
