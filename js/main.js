@@ -106,7 +106,7 @@ function discardAndShowNext(questionWrapper, pickedOption){
     else{
         removeClassHidden(nextQuestionWrapper);//Make it appear
     }
-};
+}
 
 function makeOptionsUnclickable(questionWrapper){
     var range = questionWrapper.children.length;
@@ -202,7 +202,7 @@ function fetchCorrespondingDataFromApis(apis){
     I use Promise.all and then I can handle them all as the data is (hopefully) recived */
     Promise.all([apiRequestShape,apiRequestColor,apiRequestHabitat])
     .then((pokemonData) => {
-        if (pokemonData.ok) { //Check the state of the promise
+        if (pokemonData.ok){ //Check the state of the promise
             return pokemonData.json() //Return and do stuff with the pokemonData
         }
 
@@ -229,21 +229,21 @@ function fetchCorrespondingDataFromApis(apis){
             if (spiritPokemonData.ok){
                 return spiritPokemonData.json();
             }
-            })
-            .then((spiritPokemonData) => {
-                displayResults(spiritPokemonData);
-            })
-            .then((spiritPokemonData) => {
-                showActionButton();
-            })
-            .catch(error => {
-                displayErrorMessageToUser();
-            });
+        })
+        .then((spiritPokemonData) => {
+            displayResults(spiritPokemonData);
+        })
+        .then((spiritPokemonData) => {
+            showActionButton();
+        })
+        .catch(error => {
+            displayErrorMessageToUser();
+        });
     })
-
+    
     //Catch for Promise.all
-    .catch(error => {
-        displayErrorMessageToUser();
+    .catch(error => { 
+        displayErrorMessageToUser(); 
     });
 } 
 
@@ -267,8 +267,7 @@ function findMatchingPokemon(shape, color, habitat){
         /* Using indexOf I can check if the name is present in the other two arrays, 
         (the return value should not be -1) and push that name into my array of matching Pokémon */
         if((color.indexOf(name) !== -1) == true 
-        && (habitat.indexOf(name) !== -1) == true)
-        {
+        && (habitat.indexOf(name) !== -1) == true){
             matchingPokemon.push(name);
         }    
     });
@@ -343,7 +342,7 @@ function excludeFromOptions(currentOptions, a, b){
         //Only the value a should stay hidden
         if (a != undefined && b == undefined){
             if(currentOptions[i].id != a){
-            removeClassHidden(currentOptions[i]);
+                removeClassHidden(currentOptions[i]);
             }
         }
         //Both a and b should stay hidden
