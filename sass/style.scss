@@ -1,12 +1,12 @@
 @import "_animation";
-@import "_mobile.scss";
+@import "_mobile";
 
 //Small tablet ->
 @media screen and (min-width: 668px){
-    @import "_tablet.scss";
+    @import "_tablet";
 }
 
 //Desktop ->
 @media screen and (min-width: 992px){
-    @import "_desktop.scss";
+    @import "_desktop";
 }
