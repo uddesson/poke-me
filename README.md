@@ -1,8 +1,5 @@
 # Pokéme Test
 
-By Emma Uddesson.
-
-## Description
 A highly accurate test that will show you which Pokémon is your _spiritpokémon_. Try it yourself at [pokeme.uddesson.se](http://pokeme.uddesson.se/). 
 
 Oh, and the way I'm pronouncing the name in my head is "Poké-me". Like, Pokémon + me. Get it? ~~Nevermind.~~
